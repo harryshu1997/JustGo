@@ -10,9 +10,13 @@ struct WatchRootView: View {
                 .navigationDestination(for: WatchRoute.self) { route in
                     switch route {
                     case .active(let goal):
+                        // 用 goal.id 作为 view identity，每个不同目标 = 全新 ActiveSessionView
+                        // 防止上一个 session 的 @State（计时/计数）残留到下一个
                         ActiveSessionView(goal: goal, path: $path)
+                            .id(goal.id)
                     case .completion(let result):
                         CompletionView(result: result, path: $path)
+                            .id(result.goal.id)
                     case .nextPrompt:
                         NextGoalPromptView(path: $path)
                     }
