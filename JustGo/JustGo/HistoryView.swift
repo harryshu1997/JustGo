@@ -35,14 +35,18 @@ struct HistoryView: View {
                     ForEach(grouped, id: \.0) { day, items in
                         Section(day) {
                             ForEach(items) { session in
-                                HistoryRow(session: session)
+                                NavigationLink {
+                                    HistoryDetailView(session: session)
+                                } label: {
+                                    HistoryRow(session: session)
+                                }
                             }
                         }
                     }
                 }
+                .navigationTitle("历史")
             }
         }
-        .navigationTitle("历史")
     }
 }
 

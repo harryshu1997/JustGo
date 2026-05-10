@@ -12,8 +12,13 @@ struct GoalEditorView: View {
     @State private var type: GoalType = .duration
     @State private var minutes: Int = 30
     @State private var reps: Int = 30
+    @State private var phaseDrafts: [PhaseDraft] = []
 
-    private var canSave: Bool { !title.trimmingCharacters(in: .whitespaces).isEmpty }
+    private var canSave: Bool {
+        guard !title.trimmingCharacters(in: .whitespaces).isEmpty else { return false }
+        if type == .phased { return !phaseDrafts.isEmpty }
+        return true
+    }
 
     var body: some View {
         NavigationStack {
@@ -53,9 +58,7 @@ struct GoalEditorView: View {
                             }
                         }
                     case .phased:
-                        Text("分阶段编辑器将在 Phase 2 提供。当前可保存名称占位，每完成视为 1 阶段。")
-                            .foregroundStyle(.secondary)
-                            .font(.callout)
+                        phasedEditor
                     }
                 }
             }
@@ -74,6 +77,41 @@ struct GoalEditorView: View {
         }
     }
 
+    private var phasedEditor: some View {
+        Group {
+            if phaseDrafts.isEmpty {
+                Text("点下方加号添加第一个阶段")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical, 4)
+            }
+            ForEach($phaseDrafts) { $draft in
+                PhaseRowEditor(draft: $draft)
+            }
+            .onMove { from, to in
+                phaseDrafts.move(fromOffsets: from, toOffset: to)
+            }
+            .onDelete { offsets in
+                phaseDrafts.remove(atOffsets: offsets)
+            }
+            Button {
+                phaseDrafts.append(PhaseDraft(
+                    name: "阶段 \(phaseDrafts.count + 1)",
+                    type: .duration,
+                    value: 5
+                ))
+            } label: {
+                Label("添加阶段", systemImage: "plus.circle.fill")
+                    .foregroundStyle(Palette.primary)
+            }
+            if phaseDrafts.count >= 2 {
+                Text("长按拖动可重排顺序，左滑可删除")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+
     private func loadExisting() {
         guard let g = existing else { return }
         title = g.title
@@ -81,6 +119,15 @@ struct GoalEditorView: View {
         type = g.type
         if let d = g.targetDuration { minutes = max(1, Int(d / 60)) }
         if let r = g.targetReps { reps = max(1, r) }
+        let phases = (g.phases ?? []).sorted(by: { $0.order < $1.order })
+        phaseDrafts = phases.map { p in
+            PhaseDraft(
+                id: p.id,
+                name: p.name,
+                type: p.type,
+                value: p.type == .duration ? Int((p.targetDuration ?? 60) / 60) : (p.targetReps ?? 1)
+            )
+        }
     }
 
     private func save() {
@@ -102,8 +149,72 @@ struct GoalEditorView: View {
         if existing == nil {
             context.insert(goal)
         }
+
+        if type == .phased {
+            // 清空旧阶段，写入新阶段
+            (goal.phases ?? []).forEach { context.delete($0) }
+            goal.phases = []
+            for (idx, draft) in phaseDrafts.enumerated() {
+                let p = GoalPhase()
+                p.id = draft.id
+                p.name = draft.name.trimmingCharacters(in: .whitespaces)
+                p.order = idx
+                p.type = draft.type
+                if draft.type == .duration {
+                    p.targetDuration = TimeInterval(draft.value * 60)
+                    p.targetReps = nil
+                } else {
+                    p.targetReps = draft.value
+                    p.targetDuration = nil
+                }
+                p.goal = goal
+                context.insert(p)
+            }
+        } else {
+            (goal.phases ?? []).forEach { context.delete($0) }
+            goal.phases = []
+        }
+
         try? context.save()
         dismiss()
+    }
+}
+
+struct PhaseDraft: Identifiable {
+    var id: UUID = UUID()
+    var name: String
+    var type: PhaseType
+    var value: Int    // 时长型：分钟；次数型：个数
+}
+
+struct PhaseRowEditor: View {
+    @Binding var draft: PhaseDraft
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            TextField("阶段名称", text: $draft.name)
+            HStack {
+                Picker("类型", selection: $draft.type) {
+                    Text("时长").tag(PhaseType.duration)
+                    Text("次数").tag(PhaseType.reps)
+                }
+                .pickerStyle(.segmented)
+                .frame(maxWidth: 160)
+
+                Spacer()
+
+                Stepper(value: $draft.value, in: 1...500) {
+                    HStack(spacing: 4) {
+                        Text("\(draft.value)")
+                            .monospacedDigit()
+                        Text(draft.type == .duration ? "分钟" : "个")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
+        .padding(.vertical, 4)
     }
 }
 

@@ -12,6 +12,7 @@ final class UserProfile {
     var lastSessionDate: Date? = nil
 
     var buddySpeciesRaw: String = "fox"
+    var buddyName: String = "小狐"
     var buddyExp: Int = 0
     var buddyStageRaw: Int = BuddyStage.egg.rawValue
     var buddyMoodRaw: String = BuddyMood.calm.rawValue

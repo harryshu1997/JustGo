@@ -34,6 +34,22 @@ final class CalendarService {
         UserDefaults.standard.set(false, forKey: enabledKey)
     }
 
+    func removeEvent(identifier: String) -> Bool {
+        guard isEnabled else { return false }
+        guard let event = store.event(withIdentifier: identifier) else {
+            print("[Calendar] event \(identifier) not found")
+            return false
+        }
+        do {
+            try store.remove(event, span: .thisEvent)
+            print("[Calendar] event removed id=\(identifier)")
+            return true
+        } catch {
+            print("[Calendar] remove error: \(error)")
+            return false
+        }
+    }
+
     func writeEvent(
         title: String,
         startedAt: Date,

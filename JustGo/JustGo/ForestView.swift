@@ -2,16 +2,21 @@ import SwiftUI
 import SwiftData
 
 struct ForestView: View {
+    @Environment(\.modelContext) private var context
     @Query private var trees: [Tree]
     @Query private var profiles: [UserProfile]
 
     private var profile: UserProfile? { profiles.first }
+
+    private var aliveCount: Int { trees.filter(\.isAlive).count }
+    private var deadCount: Int { trees.count - aliveCount }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     levelCard
+                    if deadCount > 0 { decayWarning }
                     forestCanvas
                     stats
                 }
@@ -19,7 +24,26 @@ struct ForestView: View {
             }
             .navigationTitle("我的森林")
             .background(Palette.bg)
+            .onAppear {
+                ForestDecayService.applyDecay(in: context)
+            }
         }
+    }
+
+    private var decayWarning: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundStyle(.orange)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(deadCount) 棵树枯死了").font(.subheadline.bold())
+                Text("最近运动太少，每空闲 7 天最老的一棵会变树桩。继续完成目标，新树会继续种下。")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding()
+        .background(Color.orange.opacity(0.12))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
     private var levelCard: some View {
@@ -83,8 +107,14 @@ struct ForestView: View {
 
     private var stats: some View {
         HStack(spacing: 16) {
-            stat(title: "已种", value: "\(trees.count) 棵", icon: "tree.fill")
-            stat(title: "Buddy", value: profile?.buddyStage.displayName ?? "—", icon: "pawprint.fill")
+            stat(
+                title: "存活 / 总数",
+                value: "\(aliveCount) / \(trees.count)",
+                icon: "tree.fill"
+            )
+            stat(title: profile?.buddyName ?? "Buddy",
+                 value: profile?.buddyStage.displayName ?? "—",
+                 icon: "pawprint.fill")
             stat(title: "连续", value: "\(profile?.streakDays ?? 0) 天", icon: "flame.fill")
         }
     }
@@ -108,6 +138,7 @@ struct ForestView: View {
     }
 
     private func currentStage(for tree: Tree, at now: Date) -> Int {
+        if !tree.isAlive { return 3 }
         let elapsed = now.timeIntervalSince(tree.plantedAt)
         if elapsed < 10 { return 0 }
         if elapsed < 25 { return 1 }
@@ -125,6 +156,7 @@ struct ForestView: View {
     }
 
     private func pattern(for tree: Tree, at now: Date) -> [[PixelColor]] {
+        if !tree.isAlive { return PixelTreePatterns.stump }
         let stage = currentStage(for: tree, at: now)
         switch tree.species {
         case .sakura:

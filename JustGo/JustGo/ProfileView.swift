@@ -5,6 +5,7 @@ struct ProfileView: View {
     @Environment(\.modelContext) private var context
     @Query private var profiles: [UserProfile]
     @State private var calendarEnabled: Bool = false
+    @State private var buddyNameDraft: String = ""
 
     private var profile: UserProfile {
         if let p = profiles.first { return p }
@@ -21,12 +22,24 @@ struct ProfileView: View {
                     HStack {
                         PixelBuddyView(stage: profile.buddyStage, pixelSize: 4)
                         VStack(alignment: .leading) {
-                            Text(profile.buddyStage.displayName).font(.headline)
-                            Text("\(profile.buddyExp) / \(nextStageExp) 经验")
+                            Text(profile.buddyName).font(.headline)
+                            Text("\(profile.buddyStage.displayName) · \(profile.buddyExp) / \(nextStageExp)")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             ProgressView(value: stageProgress)
                                 .tint(Palette.primary)
+                        }
+                    }
+                    HStack {
+                        Text("Buddy 名字")
+                        TextField("小狐", text: $buddyNameDraft)
+                            .multilineTextAlignment(.trailing)
+                            .submitLabel(.done)
+                            .onSubmit { saveBuddyName() }
+                        if buddyNameDraft != profile.buddyName {
+                            Button("保存") { saveBuddyName() }
+                                .font(.caption.bold())
+                                .foregroundStyle(Palette.primary)
                         }
                     }
                 }
@@ -61,8 +74,16 @@ struct ProfileView: View {
             .navigationTitle("我的")
             .onAppear {
                 calendarEnabled = CalendarService.shared.isEnabled
+                buddyNameDraft = profile.buddyName
             }
         }
+    }
+
+    private func saveBuddyName() {
+        let trimmed = buddyNameDraft.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { buddyNameDraft = profile.buddyName; return }
+        profile.buddyName = trimmed
+        try? context.save()
     }
 
     private var nextStageExp: Int {

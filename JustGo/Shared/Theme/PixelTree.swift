@@ -136,6 +136,20 @@ enum PixelTreePatterns {
         [e,e,e,e,B,B,e,e,e,e],
         Array(repeating: e, count: 10),
     ]
+
+    /// 死树：只剩矮树桩 + 一点裂纹
+    static let stump: [[PixelColor]] = [
+        Array(repeating: e, count: 10),
+        Array(repeating: e, count: 10),
+        Array(repeating: e, count: 10),
+        Array(repeating: e, count: 10),
+        Array(repeating: e, count: 10),
+        Array(repeating: e, count: 10),
+        Array(repeating: e, count: 10),
+        [e,e,e,B,B,B,e,e,e,e],
+        [e,e,B,B,e,B,B,e,e,e],
+        [e,e,B,B,B,B,B,e,e,e],
+    ]
 }
 
 #Preview("oak stages") {
