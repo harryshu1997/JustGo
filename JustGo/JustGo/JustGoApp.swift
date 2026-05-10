@@ -4,6 +4,7 @@ import SwiftData
 @main
 struct JustGoApp: App {
     let modelContainer: ModelContainer
+    @Environment(\.scenePhase) private var scenePhase
 
     init() {
         do {
@@ -28,6 +29,11 @@ struct JustGoApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onChange(of: scenePhase) { _, newPhase in
+                    if newPhase == .active {
+                        LiveActivityManager.shared.flushPending()
+                    }
+                }
         }
         .modelContainer(modelContainer)
     }

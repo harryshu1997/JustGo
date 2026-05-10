@@ -6,6 +6,7 @@ final class LiveActivityManager {
     static let shared = LiveActivityManager()
 
     private var current: Activity<SessionActivityAttributes>?
+    private var pendingAttrs: SessionActivityAttributes?
 
     var isSupported: Bool {
         ActivityAuthorizationInfo().areActivitiesEnabled
@@ -32,13 +33,32 @@ final class LiveActivityManager {
             targetReps: targetReps,
             startedAt: startedAt
         )
+        attemptStart(attrs: attrs)
+    }
+
+    /// JustGoApp.scenePhase 切回 .active 时调用
+    func flushPending() {
+        guard let attrs = pendingAttrs else { return }
+        print("[LiveActivity] flushing pending activity (app became foreground)")
+        attemptStart(attrs: attrs)
+    }
+
+    private func attemptStart(attrs: SessionActivityAttributes) {
         let state = SessionActivityState(elapsedSeconds: 0)
         let content = ActivityContent(state: state, staleDate: nil)
         do {
             current = try Activity.request(attributes: attrs, content: content, pushType: nil)
+            pendingAttrs = nil
             print("[LiveActivity] started id=\(current?.id ?? "?")")
         } catch {
-            print("[LiveActivity] start error: \(error)")
+            let msg = "\(error)"
+            if msg.contains("visibility") {
+                pendingAttrs = attrs
+                print("[LiveActivity] backgrounded → queued; will start on next foreground")
+            } else {
+                pendingAttrs = nil
+                print("[LiveActivity] start error: \(error)")
+            }
         }
     }
 
@@ -51,6 +71,7 @@ final class LiveActivityManager {
     }
 
     func endCurrent(finalState: SessionActivityState? = nil) {
+        pendingAttrs = nil   // 如果还没启动就被结束了，清掉队列
         guard let activity = current else { return }
         Task {
             let content = finalState.map { ActivityContent(state: $0, staleDate: nil) }
