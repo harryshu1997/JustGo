@@ -1,0 +1,856 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EE7DC6252FAFE41A00F2F204 /* JustGoWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EE7DC6242FAFE41A00F2F204 /* JustGoWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EE7DC64C2FAFE74000F2F204 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63F2FAFE74000F2F204 /* Enums.swift */; };
+		EE7DC64D2FAFE74000F2F204 /* PixelTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC64A2FAFE74000F2F204 /* PixelTree.swift */; };
+		EE7DC64E2FAFE74000F2F204 /* FitnessGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6402FAFE74000F2F204 /* FitnessGoal.swift */; };
+		EE7DC64F2FAFE74000F2F204 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6432FAFE74000F2F204 /* UserProfile.swift */; };
+		EE7DC6502FAFE74000F2F204 /* PointsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63B2FAFE74000F2F204 /* PointsCalculator.swift */; };
+		EE7DC6512FAFE74000F2F204 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6482FAFE74000F2F204 /* Palette.swift */; };
+		EE7DC6522FAFE74000F2F204 /* TreeSpawnRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63C2FAFE74000F2F204 /* TreeSpawnRules.swift */; };
+		EE7DC6532FAFE74000F2F204 /* DailyPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63E2FAFE74000F2F204 /* DailyPlan.swift */; };
+		EE7DC6542FAFE74000F2F204 /* GoalPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6412FAFE74000F2F204 /* GoalPhase.swift */; };
+		EE7DC6552FAFE74000F2F204 /* PixelBuddy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6492FAFE74000F2F204 /* PixelBuddy.swift */; };
+		EE7DC6562FAFE74000F2F204 /* SessionPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6382FAFE74000F2F204 /* SessionPayload.swift */; };
+		EE7DC6572FAFE74000F2F204 /* WorkoutSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6442FAFE74000F2F204 /* WorkoutSession.swift */; };
+		EE7DC6582FAFE74000F2F204 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6422FAFE74000F2F204 /* Tree.swift */; };
+		EE7DC6592FAFE74000F2F204 /* BuddyExpCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63A2FAFE74000F2F204 /* BuddyExpCalculator.swift */; };
+		EE7DC65A2FAFE74000F2F204 /* ConnectivityCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6462FAFE74000F2F204 /* ConnectivityCoder.swift */; };
+		EE7DC65B2FAFE74000F2F204 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63F2FAFE74000F2F204 /* Enums.swift */; };
+		EE7DC65C2FAFE74000F2F204 /* PixelTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC64A2FAFE74000F2F204 /* PixelTree.swift */; };
+		EE7DC65D2FAFE74000F2F204 /* FitnessGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6402FAFE74000F2F204 /* FitnessGoal.swift */; };
+		EE7DC65E2FAFE74000F2F204 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6432FAFE74000F2F204 /* UserProfile.swift */; };
+		EE7DC65F2FAFE74000F2F204 /* PointsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63B2FAFE74000F2F204 /* PointsCalculator.swift */; };
+		EE7DC6602FAFE74000F2F204 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6482FAFE74000F2F204 /* Palette.swift */; };
+		EE7DC6612FAFE74000F2F204 /* TreeSpawnRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63C2FAFE74000F2F204 /* TreeSpawnRules.swift */; };
+		EE7DC6622FAFE74000F2F204 /* DailyPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63E2FAFE74000F2F204 /* DailyPlan.swift */; };
+		EE7DC6632FAFE74000F2F204 /* GoalPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6412FAFE74000F2F204 /* GoalPhase.swift */; };
+		EE7DC6642FAFE74000F2F204 /* PixelBuddy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6492FAFE74000F2F204 /* PixelBuddy.swift */; };
+		EE7DC6652FAFE74000F2F204 /* SessionPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6382FAFE74000F2F204 /* SessionPayload.swift */; };
+		EE7DC6662FAFE74000F2F204 /* WorkoutSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6442FAFE74000F2F204 /* WorkoutSession.swift */; };
+		EE7DC6672FAFE74000F2F204 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6422FAFE74000F2F204 /* Tree.swift */; };
+		EE7DC6682FAFE74000F2F204 /* BuddyExpCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63A2FAFE74000F2F204 /* BuddyExpCalculator.swift */; };
+		EE7DC6692FAFE74000F2F204 /* ConnectivityCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6462FAFE74000F2F204 /* ConnectivityCoder.swift */; };
+		EE94FD5F2FB11EAF00A35228 /* JustGoWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EE7DC6242FAFE41A00F2F204 /* JustGoWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EE7DC6262FAFE41A00F2F204 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE7DC5FC2FAFE38500F2F204 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE7DC6232FAFE41A00F2F204;
+			remoteInfo = "JustGoWatch Watch App";
+		};
+		EE94FD602FB11EAF00A35228 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE7DC5FC2FAFE38500F2F204 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE7DC6232FAFE41A00F2F204;
+			remoteInfo = "JustGoWatch Watch App";
+		};
+		EE94FD632FB11ED100A35228 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE7DC5FC2FAFE38500F2F204 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE7DC6232FAFE41A00F2F204;
+			remoteInfo = "JustGoWatch Watch App";
+		};
+		EE94FD652FB11F0E00A35228 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE7DC5FC2FAFE38500F2F204 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE7DC6232FAFE41A00F2F204;
+			remoteInfo = "JustGoWatch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EE7DC6322FAFE41B00F2F204 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				EE7DC6252FAFE41A00F2F204 /* JustGoWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE94FD622FB11EAF00A35228 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				EE94FD5F2FB11EAF00A35228 /* JustGoWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EE7DC6042FAFE38500F2F204 /* JustGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE7DC6182FAFE41900F2F204 /* JustGoWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustGoWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE7DC6242FAFE41A00F2F204 /* JustGoWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JustGoWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE7DC6382FAFE74000F2F204 /* SessionPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPayload.swift; sourceTree = "<group>"; };
+		EE7DC63A2FAFE74000F2F204 /* BuddyExpCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuddyExpCalculator.swift; sourceTree = "<group>"; };
+		EE7DC63B2FAFE74000F2F204 /* PointsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsCalculator.swift; sourceTree = "<group>"; };
+		EE7DC63C2FAFE74000F2F204 /* TreeSpawnRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeSpawnRules.swift; sourceTree = "<group>"; };
+		EE7DC63E2FAFE74000F2F204 /* DailyPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPlan.swift; sourceTree = "<group>"; };
+		EE7DC63F2FAFE74000F2F204 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		EE7DC6402FAFE74000F2F204 /* FitnessGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessGoal.swift; sourceTree = "<group>"; };
+		EE7DC6412FAFE74000F2F204 /* GoalPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalPhase.swift; sourceTree = "<group>"; };
+		EE7DC6422FAFE74000F2F204 /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
+		EE7DC6432FAFE74000F2F204 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		EE7DC6442FAFE74000F2F204 /* WorkoutSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSession.swift; sourceTree = "<group>"; };
+		EE7DC6462FAFE74000F2F204 /* ConnectivityCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityCoder.swift; sourceTree = "<group>"; };
+		EE7DC6482FAFE74000F2F204 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
+		EE7DC6492FAFE74000F2F204 /* PixelBuddy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuddy.swift; sourceTree = "<group>"; };
+		EE7DC64A2FAFE74000F2F204 /* PixelTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelTree.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		EE7DC6062FAFE38500F2F204 /* JustGo */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = JustGo;
+			sourceTree = "<group>";
+		};
+		EE7DC6192FAFE41900F2F204 /* JustGoWatch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = JustGoWatch;
+			sourceTree = "<group>";
+		};
+		EE7DC6282FAFE41A00F2F204 /* JustGoWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "JustGoWatch Watch App";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EE7DC6012FAFE38500F2F204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE7DC6152FAFE41900F2F204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE7DC6212FAFE41A00F2F204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EE7DC5FB2FAFE38500F2F204 = {
+			isa = PBXGroup;
+			children = (
+				EE7DC6372FAFE52B00F2F204 /* Shared */,
+				EE7DC6062FAFE38500F2F204 /* JustGo */,
+				EE7DC6192FAFE41900F2F204 /* JustGoWatch */,
+				EE7DC6282FAFE41A00F2F204 /* JustGoWatch Watch App */,
+				EE94FD5E2FB11EAF00A35228 /* Frameworks */,
+				EE7DC6052FAFE38500F2F204 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EE7DC6052FAFE38500F2F204 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EE7DC6042FAFE38500F2F204 /* JustGo.app */,
+				EE7DC6182FAFE41900F2F204 /* JustGoWatch.app */,
+				EE7DC6242FAFE41A00F2F204 /* JustGoWatch Watch App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EE7DC6372FAFE52B00F2F204 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				EE7DC6392FAFE74000F2F204 /* DTO */,
+				EE7DC63D2FAFE74000F2F204 /* Logic */,
+				EE7DC6452FAFE74000F2F204 /* Models */,
+				EE7DC6472FAFE74000F2F204 /* Sync */,
+				EE7DC64B2FAFE74000F2F204 /* Theme */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		EE7DC6392FAFE74000F2F204 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				EE7DC6382FAFE74000F2F204 /* SessionPayload.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		EE7DC63D2FAFE74000F2F204 /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				EE7DC63A2FAFE74000F2F204 /* BuddyExpCalculator.swift */,
+				EE7DC63B2FAFE74000F2F204 /* PointsCalculator.swift */,
+				EE7DC63C2FAFE74000F2F204 /* TreeSpawnRules.swift */,
+			);
+			path = Logic;
+			sourceTree = "<group>";
+		};
+		EE7DC6452FAFE74000F2F204 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EE7DC63E2FAFE74000F2F204 /* DailyPlan.swift */,
+				EE7DC63F2FAFE74000F2F204 /* Enums.swift */,
+				EE7DC6402FAFE74000F2F204 /* FitnessGoal.swift */,
+				EE7DC6412FAFE74000F2F204 /* GoalPhase.swift */,
+				EE7DC6422FAFE74000F2F204 /* Tree.swift */,
+				EE7DC6432FAFE74000F2F204 /* UserProfile.swift */,
+				EE7DC6442FAFE74000F2F204 /* WorkoutSession.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EE7DC6472FAFE74000F2F204 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				EE7DC6462FAFE74000F2F204 /* ConnectivityCoder.swift */,
+			);
+			path = Sync;
+			sourceTree = "<group>";
+		};
+		EE7DC64B2FAFE74000F2F204 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				EE7DC6482FAFE74000F2F204 /* Palette.swift */,
+				EE7DC6492FAFE74000F2F204 /* PixelBuddy.swift */,
+				EE7DC64A2FAFE74000F2F204 /* PixelTree.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		EE94FD5E2FB11EAF00A35228 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE7DC6032FAFE38500F2F204 /* JustGo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE7DC6112FAFE38700F2F204 /* Build configuration list for PBXNativeTarget "JustGo" */;
+			buildPhases = (
+				EE7DC6002FAFE38500F2F204 /* Sources */,
+				EE7DC6012FAFE38500F2F204 /* Frameworks */,
+				EE7DC6022FAFE38500F2F204 /* Resources */,
+				EE94FD622FB11EAF00A35228 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EE94FD612FB11EAF00A35228 /* PBXTargetDependency */,
+				EE94FD642FB11ED100A35228 /* PBXTargetDependency */,
+				EE94FD662FB11F0E00A35228 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				EE7DC6062FAFE38500F2F204 /* JustGo */,
+			);
+			name = JustGo;
+			packageProductDependencies = (
+			);
+			productName = JustGo;
+			productReference = EE7DC6042FAFE38500F2F204 /* JustGo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EE7DC6172FAFE41900F2F204 /* JustGoWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE7DC6332FAFE41B00F2F204 /* Build configuration list for PBXNativeTarget "JustGoWatch" */;
+			buildPhases = (
+				EE7DC6142FAFE41900F2F204 /* Sources */,
+				EE7DC6152FAFE41900F2F204 /* Frameworks */,
+				EE7DC6162FAFE41900F2F204 /* Resources */,
+				EE7DC6322FAFE41B00F2F204 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EE7DC6272FAFE41A00F2F204 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				EE7DC6192FAFE41900F2F204 /* JustGoWatch */,
+			);
+			name = JustGoWatch;
+			packageProductDependencies = (
+			);
+			productName = JustGoWatch;
+			productReference = EE7DC6182FAFE41900F2F204 /* JustGoWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE7DC62F2FAFE41B00F2F204 /* Build configuration list for PBXNativeTarget "JustGoWatch Watch App" */;
+			buildPhases = (
+				EE7DC6202FAFE41A00F2F204 /* Sources */,
+				EE7DC6212FAFE41A00F2F204 /* Frameworks */,
+				EE7DC6222FAFE41A00F2F204 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				EE7DC6282FAFE41A00F2F204 /* JustGoWatch Watch App */,
+			);
+			name = "JustGoWatch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "JustGoWatch Watch App";
+			productReference = EE7DC6242FAFE41A00F2F204 /* JustGoWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EE7DC5FC2FAFE38500F2F204 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					EE7DC6032FAFE38500F2F204 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+					EE7DC6172FAFE41900F2F204 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+					EE7DC6232FAFE41A00F2F204 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+				};
+			};
+			buildConfigurationList = EE7DC5FF2FAFE38500F2F204 /* Build configuration list for PBXProject "JustGo" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EE7DC5FB2FAFE38500F2F204;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = EE7DC6052FAFE38500F2F204 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE7DC6032FAFE38500F2F204 /* JustGo */,
+				EE7DC6172FAFE41900F2F204 /* JustGoWatch */,
+				EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EE7DC6022FAFE38500F2F204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE7DC6162FAFE41900F2F204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE7DC6222FAFE41A00F2F204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EE7DC6002FAFE38500F2F204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE7DC65B2FAFE74000F2F204 /* Enums.swift in Sources */,
+				EE7DC65C2FAFE74000F2F204 /* PixelTree.swift in Sources */,
+				EE7DC65D2FAFE74000F2F204 /* FitnessGoal.swift in Sources */,
+				EE7DC65E2FAFE74000F2F204 /* UserProfile.swift in Sources */,
+				EE7DC65F2FAFE74000F2F204 /* PointsCalculator.swift in Sources */,
+				EE7DC6602FAFE74000F2F204 /* Palette.swift in Sources */,
+				EE7DC6612FAFE74000F2F204 /* TreeSpawnRules.swift in Sources */,
+				EE7DC6622FAFE74000F2F204 /* DailyPlan.swift in Sources */,
+				EE7DC6632FAFE74000F2F204 /* GoalPhase.swift in Sources */,
+				EE7DC6642FAFE74000F2F204 /* PixelBuddy.swift in Sources */,
+				EE7DC6652FAFE74000F2F204 /* SessionPayload.swift in Sources */,
+				EE7DC6662FAFE74000F2F204 /* WorkoutSession.swift in Sources */,
+				EE7DC6672FAFE74000F2F204 /* Tree.swift in Sources */,
+				EE7DC6682FAFE74000F2F204 /* BuddyExpCalculator.swift in Sources */,
+				EE7DC6692FAFE74000F2F204 /* ConnectivityCoder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE7DC6142FAFE41900F2F204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE7DC6202FAFE41A00F2F204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE7DC64C2FAFE74000F2F204 /* Enums.swift in Sources */,
+				EE7DC64D2FAFE74000F2F204 /* PixelTree.swift in Sources */,
+				EE7DC64E2FAFE74000F2F204 /* FitnessGoal.swift in Sources */,
+				EE7DC64F2FAFE74000F2F204 /* UserProfile.swift in Sources */,
+				EE7DC6502FAFE74000F2F204 /* PointsCalculator.swift in Sources */,
+				EE7DC6512FAFE74000F2F204 /* Palette.swift in Sources */,
+				EE7DC6522FAFE74000F2F204 /* TreeSpawnRules.swift in Sources */,
+				EE7DC6532FAFE74000F2F204 /* DailyPlan.swift in Sources */,
+				EE7DC6542FAFE74000F2F204 /* GoalPhase.swift in Sources */,
+				EE7DC6552FAFE74000F2F204 /* PixelBuddy.swift in Sources */,
+				EE7DC6562FAFE74000F2F204 /* SessionPayload.swift in Sources */,
+				EE7DC6572FAFE74000F2F204 /* WorkoutSession.swift in Sources */,
+				EE7DC6582FAFE74000F2F204 /* Tree.swift in Sources */,
+				EE7DC6592FAFE74000F2F204 /* BuddyExpCalculator.swift in Sources */,
+				EE7DC65A2FAFE74000F2F204 /* ConnectivityCoder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EE7DC6272FAFE41A00F2F204 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */;
+			targetProxy = EE7DC6262FAFE41A00F2F204 /* PBXContainerItemProxy */;
+		};
+		EE94FD612FB11EAF00A35228 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */;
+			targetProxy = EE94FD602FB11EAF00A35228 /* PBXContainerItemProxy */;
+		};
+		EE94FD642FB11ED100A35228 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */;
+			targetProxy = EE94FD632FB11ED100A35228 /* PBXContainerItemProxy */;
+		};
+		EE94FD662FB11F0E00A35228 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */;
+			targetProxy = EE94FD652FB11F0E00A35228 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		EE7DC60F2FAFE38700F2F204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EE7DC6102FAFE38700F2F204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		EE7DC6122FAFE38700F2F204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhihaoshu.JustGo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Debug;
+		};
+		EE7DC6132FAFE38700F2F204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhihaoshu.JustGo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Release;
+		};
+		EE7DC6302FAFE41B00F2F204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V326KM2CL;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = JustGoWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.zhihaoshu.JustGo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhihaoshu.JustGo.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Debug;
+		};
+		EE7DC6312FAFE41B00F2F204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V326KM2CL;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = JustGoWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.zhihaoshu.JustGo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhihaoshu.JustGo.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.4;
+			};
+			name = Release;
+		};
+		EE7DC6342FAFE41B00F2F204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V326KM2CL;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = JustGoWatch;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhihaoshu.JustGoWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EE7DC6352FAFE41B00F2F204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V326KM2CL;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = JustGoWatch;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhihaoshu.JustGoWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EE7DC5FF2FAFE38500F2F204 /* Build configuration list for PBXProject "JustGo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE7DC60F2FAFE38700F2F204 /* Debug */,
+				EE7DC6102FAFE38700F2F204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE7DC6112FAFE38700F2F204 /* Build configuration list for PBXNativeTarget "JustGo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE7DC6122FAFE38700F2F204 /* Debug */,
+				EE7DC6132FAFE38700F2F204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE7DC62F2FAFE41B00F2F204 /* Build configuration list for PBXNativeTarget "JustGoWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE7DC6302FAFE41B00F2F204 /* Debug */,
+				EE7DC6312FAFE41B00F2F204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE7DC6332FAFE41B00F2F204 /* Build configuration list for PBXNativeTarget "JustGoWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE7DC6342FAFE41B00F2F204 /* Debug */,
+				EE7DC6352FAFE41B00F2F204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EE7DC5FC2FAFE38500F2F204 /* Project object */;
+}

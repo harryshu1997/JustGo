@@ -1,0 +1,123 @@
+import Foundation
+import WatchConnectivity
+import Combine
+
+@MainActor
+final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate {
+    static let shared = WatchSessionDelegate()
+
+    @Published private(set) var receivedGoals: [WatchGoalSnapshot] = []
+    @Published private(set) var completedGoalIDs: Set<UUID> = []
+
+    var currentGoal: WatchGoalSnapshot? {
+        receivedGoals.first { !completedGoalIDs.contains($0.id) }
+    }
+
+    var todayTotal: Int { receivedGoals.count }
+    var todayCompleted: Int { completedGoalIDs.count }
+
+    nonisolated func activate() {
+        guard WCSession.isSupported() else {
+            print("[Watch] WCSession unsupported")
+            return
+        }
+        let session = WCSession.default
+        session.delegate = self
+        session.activate()
+        print("[Watch] WCSession.activate() called")
+    }
+
+    func completeSession(_ result: SessionResult) {
+        completedGoalIDs.insert(result.goal.id)
+        let payload = SessionPayload(
+            id: UUID(),
+            goalID: result.goal.id,
+            goalSnapshotTitle: result.goal.title,
+            startedAt: result.startedAt,
+            endedAt: result.endedAt,
+            totalDuration: result.duration,
+            actualReps: result.reps,
+            goalTypeRaw: result.goal.typeRaw,
+            sourceDevice: "watch"
+        )
+        let dict = ConnectivityCoder.wrapForContext(
+            payload,
+            key: SessionPayload.messageKey
+        )
+        let session = WCSession.default
+        print("[Watch] completeSession state=\(session.activationState.rawValue) " +
+              "reachable=\(session.isReachable) duration=\(result.duration)s")
+        guard session.activationState == .activated else {
+            print("[Watch] WCSession not activated, payload dropped!")
+            return
+        }
+        if session.isReachable {
+            session.sendMessage(
+                dict,
+                replyHandler: { _ in
+                    print("[Watch] sendMessage delivered")
+                },
+                errorHandler: { error in
+                    print("[Watch] sendMessage error, falling back: \(error)")
+                    session.transferUserInfo(dict)
+                }
+            )
+        } else {
+            print("[Watch] not reachable, using transferUserInfo")
+            session.transferUserInfo(dict)
+        }
+    }
+
+    // MARK: WCSessionDelegate
+
+    nonisolated func session(
+        _ session: WCSession,
+        activationDidCompleteWith activationState: WCSessionActivationState,
+        error: Error?
+    ) {
+        if let error {
+            print("[Watch] activation error: \(error)")
+        }
+        print("[Watch] activationDidComplete state=\(activationState.rawValue) " +
+              "reachable=\(session.isReachable)")
+    }
+
+    nonisolated func session(
+        _ session: WCSession,
+        didReceiveApplicationContext applicationContext: [String: Any]
+    ) {
+        print("[Watch] didReceiveApplicationContext keys=\(applicationContext.keys.joined(separator: ","))")
+        guard let payload = ConnectivityCoder.unwrapFromContext(
+            applicationContext,
+            key: ActiveGoalsPayload.contextKey,
+            type: ActiveGoalsPayload.self
+        ) else {
+            print("[Watch] payload decode failed")
+            return
+        }
+        print("[Watch] received \(payload.goals.count) goals")
+        Task { @MainActor in
+            self.applyActiveGoals(payload)
+        }
+    }
+
+    nonisolated func sessionReachabilityDidChange(_ session: WCSession) {
+        print("[Watch] reachability=\(session.isReachable)")
+    }
+
+    @MainActor
+    private func applyActiveGoals(_ payload: ActiveGoalsPayload) {
+        receivedGoals = payload.goals.map {
+            WatchGoalSnapshot(
+                id: $0.id,
+                title: $0.title,
+                typeRaw: $0.typeRaw,
+                targetDuration: $0.targetDuration,
+                targetReps: $0.targetReps
+            )
+        }
+        // 跨日清理：让新的一天 completedGoalIDs 重置
+        let validIDs = Set(receivedGoals.map(\.id))
+        completedGoalIDs = completedGoalIDs.intersection(validIDs)
+    }
+}
