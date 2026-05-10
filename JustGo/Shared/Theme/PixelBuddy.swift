@@ -17,34 +17,71 @@ enum BuddyPixel: Int {
     case nose
 }
 
+enum BuddyAnimation {
+    case gentle   // 静止时的轻微呼吸
+    case lively   // 更明显的弹跳 + 横摆 + 偶尔眨眼
+}
+
 struct PixelBuddyView: View {
     var stage: BuddyStage = .baby
     var pose: BuddyPose = .idle
     var pixelSize: CGFloat = 4
+    var animation: BuddyAnimation = .gentle
 
     @State private var bounce: CGFloat = 0
+    @State private var sway: CGFloat = 0
+    @State private var rotation: Double = 0
+    @State private var poseBlink: Bool = false
+
+    private var effectivePose: BuddyPose {
+        if animation == .lively && poseBlink { return .excited }
+        return pose
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            ForEach(0..<pattern.count, id: \.self) { y in
+            ForEach(0..<currentPattern.count, id: \.self) { y in
                 HStack(spacing: 0) {
-                    ForEach(0..<pattern[y].count, id: \.self) { x in
+                    ForEach(0..<currentPattern[y].count, id: \.self) { x in
                         Rectangle()
-                            .fill(color(for: pattern[y][x]))
+                            .fill(color(for: currentPattern[y][x]))
                             .frame(width: pixelSize, height: pixelSize)
                     }
                 }
             }
         }
-        .offset(y: bounce)
-        .onAppear { startIdleAnimation() }
+        .offset(x: sway, y: bounce)
+        .rotationEffect(.degrees(rotation))
+        .onAppear {
+            switch animation {
+            case .gentle: startGentleAnimation()
+            case .lively: startLivelyAnimation()
+            }
+        }
     }
 
-    private func startIdleAnimation() {
-        withAnimation(
-            .easeInOut(duration: 1.5).repeatForever(autoreverses: true)
-        ) {
+    private func startGentleAnimation() {
+        withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
             bounce = -2
+        }
+    }
+
+    private func startLivelyAnimation() {
+        withAnimation(.easeInOut(duration: 0.7).repeatForever(autoreverses: true)) {
+            bounce = -6
+        }
+        withAnimation(.easeInOut(duration: 2.2).repeatForever(autoreverses: true)) {
+            sway = 5
+        }
+        withAnimation(.easeInOut(duration: 3.0).repeatForever(autoreverses: true)) {
+            rotation = 5
+        }
+        Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true) { _ in
+            Task { @MainActor in
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    poseBlink.toggle()
+                }
+            }
         }
     }
 
@@ -60,13 +97,13 @@ struct PixelBuddyView: View {
         }
     }
 
-    private var pattern: [[BuddyPixel]] {
+    private var currentPattern: [[BuddyPixel]] {
         switch stage {
         case .egg:       return Self.eggPattern
-        case .baby:      return pose == .excited ? Self.babyExcited : Self.babyIdle
+        case .baby:      return effectivePose == .excited ? Self.babyExcited : Self.babyIdle
         case .juvenile,
              .mature,
-             .guardian:  return Self.babyIdle  // 后续阶段先复用，Phase 2 再扩
+             .guardian:  return Self.babyIdle
         }
     }
 

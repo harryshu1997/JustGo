@@ -56,14 +56,7 @@ struct WatchRootView: View {
             }
             .padding(.horizontal, 8)
         } else {
-            VStack(spacing: 12) {
-                PixelBuddyView(stage: .egg, pixelSize: 4)
-                Text("等待 iPhone 同步今日计划...")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-            }
-            .padding()
+            WaitingBuddyView()
         }
     }
 
@@ -113,4 +106,49 @@ struct SessionResult: Hashable {
     let duration: TimeInterval
     let reps: Int
     var completedPhases: Int = 0
+}
+
+/// 等待 iPhone 同步今日计划时显示的活跃 buddy
+struct WaitingBuddyView: View {
+    @State private var wanderX: CGFloat = 0
+    @State private var thoughtIndex: Int = 0
+
+    private let thoughts = [
+        "等 iPhone 同步今日计划...",
+        "今天打算练点什么？",
+        "去 iPhone 设个目标吧",
+        "我准备好啦 \\(≧▽≦)/",
+    ]
+
+    var body: some View {
+        VStack(spacing: 16) {
+            // buddy 在屏幕里左右溜达
+            PixelBuddyView(
+                stage: .baby,
+                pose: .idle,
+                pixelSize: 4,
+                animation: .lively
+            )
+            .offset(x: wanderX)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 4.0).repeatForever(autoreverses: true)) {
+                    wanderX = 35
+                }
+                Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
+                    Task { @MainActor in
+                        thoughtIndex = (thoughtIndex + 1) % thoughts.count
+                    }
+                }
+            }
+
+            Text(thoughts[thoughtIndex])
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .transition(.opacity.combined(with: .scale))
+                .id(thoughtIndex)  // 文案切换时触发过渡
+                .animation(.easeInOut, value: thoughtIndex)
+        }
+        .padding()
+    }
 }
