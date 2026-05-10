@@ -39,6 +39,9 @@
 		EE7DC6682FAFE74000F2F204 /* BuddyExpCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC63A2FAFE74000F2F204 /* BuddyExpCalculator.swift */; };
 		EE7DC6692FAFE74000F2F204 /* ConnectivityCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7DC6462FAFE74000F2F204 /* ConnectivityCoder.swift */; };
 		EE94FD5F2FB11EAF00A35228 /* JustGoWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EE7DC6242FAFE41A00F2F204 /* JustGoWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EE94FE0D2FB13BC500A35228 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE94FE0C2FB13BC500A35228 /* WidgetKit.framework */; };
+		EE94FE0F2FB13BC500A35228 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE94FE0E2FB13BC500A35228 /* SwiftUI.framework */; };
+		EE94FE1E2FB13BC700A35228 /* JustGoLiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EE94FE0B2FB13BC500A35228 /* JustGoLiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +73,13 @@
 			remoteGlobalIDString = EE7DC6232FAFE41A00F2F204;
 			remoteInfo = "JustGoWatch Watch App";
 		};
+		EE94FE1C2FB13BC700A35228 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE7DC5FC2FAFE38500F2F204 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE94FE0A2FB13BC500A35228;
+			remoteInfo = JustGoLiveActivityExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -95,6 +105,17 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EE94FE1F2FB13BC700A35228 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EE94FE1E2FB13BC700A35228 /* JustGoLiveActivityExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -116,11 +137,34 @@
 		EE7DC6482FAFE74000F2F204 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		EE7DC6492FAFE74000F2F204 /* PixelBuddy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuddy.swift; sourceTree = "<group>"; };
 		EE7DC64A2FAFE74000F2F204 /* PixelTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelTree.swift; sourceTree = "<group>"; };
+		EE94FE0B2FB13BC500A35228 /* JustGoLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JustGoLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE94FE0C2FB13BC500A35228 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		EE94FE0E2FB13BC500A35228 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EE94FE222FB13BC700A35228 /* Exceptions for "JustGoLiveActivity" folder in "JustGoLiveActivityExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = EE94FE0A2FB13BC500A35228 /* JustGoLiveActivityExtension */;
+		};
+		EE94FE282FB13CF800A35228 /* Exceptions for "JustGo" folder in "JustGoLiveActivityExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				SessionActivityAttributes.swift,
+			);
+			target = EE94FE0A2FB13BC500A35228 /* JustGoLiveActivityExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EE7DC6062FAFE38500F2F204 /* JustGo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				EE94FE282FB13CF800A35228 /* Exceptions for "JustGo" folder in "JustGoLiveActivityExtension" target */,
+			);
 			path = JustGo;
 			sourceTree = "<group>";
 		};
@@ -132,6 +176,14 @@
 		EE7DC6282FAFE41A00F2F204 /* JustGoWatch Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "JustGoWatch Watch App";
+			sourceTree = "<group>";
+		};
+		EE94FE102FB13BC500A35228 /* JustGoLiveActivity */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				EE94FE222FB13BC700A35228 /* Exceptions for "JustGoLiveActivity" folder in "JustGoLiveActivityExtension" target */,
+			);
+			path = JustGoLiveActivity;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -158,6 +210,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EE94FE082FB13BC500A35228 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE94FE0F2FB13BC500A35228 /* SwiftUI.framework in Frameworks */,
+				EE94FE0D2FB13BC500A35228 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -168,6 +229,7 @@
 				EE7DC6062FAFE38500F2F204 /* JustGo */,
 				EE7DC6192FAFE41900F2F204 /* JustGoWatch */,
 				EE7DC6282FAFE41A00F2F204 /* JustGoWatch Watch App */,
+				EE94FE102FB13BC500A35228 /* JustGoLiveActivity */,
 				EE94FD5E2FB11EAF00A35228 /* Frameworks */,
 				EE7DC6052FAFE38500F2F204 /* Products */,
 			);
@@ -179,6 +241,7 @@
 				EE7DC6042FAFE38500F2F204 /* JustGo.app */,
 				EE7DC6182FAFE41900F2F204 /* JustGoWatch.app */,
 				EE7DC6242FAFE41A00F2F204 /* JustGoWatch Watch App.app */,
+				EE94FE0B2FB13BC500A35228 /* JustGoLiveActivityExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -248,6 +311,8 @@
 		EE94FD5E2FB11EAF00A35228 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE94FE0C2FB13BC500A35228 /* WidgetKit.framework */,
+				EE94FE0E2FB13BC500A35228 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -263,6 +328,7 @@
 				EE7DC6012FAFE38500F2F204 /* Frameworks */,
 				EE7DC6022FAFE38500F2F204 /* Resources */,
 				EE94FD622FB11EAF00A35228 /* Embed Watch Content */,
+				EE94FE1F2FB13BC700A35228 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -270,6 +336,7 @@
 				EE94FD612FB11EAF00A35228 /* PBXTargetDependency */,
 				EE94FD642FB11ED100A35228 /* PBXTargetDependency */,
 				EE94FD662FB11F0E00A35228 /* PBXTargetDependency */,
+				EE94FE1D2FB13BC700A35228 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				EE7DC6062FAFE38500F2F204 /* JustGo */,
@@ -327,6 +394,28 @@
 			productReference = EE7DC6242FAFE41A00F2F204 /* JustGoWatch Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
+		EE94FE0A2FB13BC500A35228 /* JustGoLiveActivityExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE94FE232FB13BC700A35228 /* Build configuration list for PBXNativeTarget "JustGoLiveActivityExtension" */;
+			buildPhases = (
+				EE94FE072FB13BC500A35228 /* Sources */,
+				EE94FE082FB13BC500A35228 /* Frameworks */,
+				EE94FE092FB13BC500A35228 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				EE94FE102FB13BC500A35228 /* JustGoLiveActivity */,
+			);
+			name = JustGoLiveActivityExtension;
+			packageProductDependencies = (
+			);
+			productName = JustGoLiveActivityExtension;
+			productReference = EE94FE0B2FB13BC500A35228 /* JustGoLiveActivityExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -345,6 +434,10 @@
 					};
 					EE7DC6232FAFE41A00F2F204 = {
 						CreatedOnToolsVersion = 26.4.1;
+					};
+					EE94FE0A2FB13BC500A35228 = {
+						CreatedOnToolsVersion = 26.4.1;
+						LastSwiftMigration = 2640;
 					};
 				};
 			};
@@ -365,6 +458,7 @@
 				EE7DC6032FAFE38500F2F204 /* JustGo */,
 				EE7DC6172FAFE41900F2F204 /* JustGoWatch */,
 				EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */,
+				EE94FE0A2FB13BC500A35228 /* JustGoLiveActivityExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -385,6 +479,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EE7DC6222FAFE41A00F2F204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE94FE092FB13BC500A35228 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -445,6 +546,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EE94FE072FB13BC500A35228 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -467,6 +575,11 @@
 			isa = PBXTargetDependency;
 			target = EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */;
 			targetProxy = EE94FD652FB11F0E00A35228 /* PBXContainerItemProxy */;
+		};
+		EE94FE1D2FB13BC700A35228 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE94FE0A2FB13BC500A35228 /* JustGoLiveActivityExtension */;
+			targetProxy = EE94FE1C2FB13BC700A35228 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -823,6 +936,76 @@
 			};
 			name = Release;
 		};
+		EE94FE202FB13BC700A35228 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V326KM2CL;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JustGoLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = JustGoLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhihaoshu.JustGo.JustGoLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "JustGoLiveActivity/JustGoLiveActivityExtension-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EE94FE212FB13BC700A35228 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V326KM2CL;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JustGoLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = JustGoLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhihaoshu.JustGo.JustGoLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "JustGoLiveActivity/JustGoLiveActivityExtension-Bridging-Header.h";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -858,6 +1041,15 @@
 			buildConfigurations = (
 				EE7DC6342FAFE41B00F2F204 /* Debug */,
 				EE7DC6352FAFE41B00F2F204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE94FE232FB13BC700A35228 /* Build configuration list for PBXNativeTarget "JustGoLiveActivityExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE94FE202FB13BC700A35228 /* Debug */,
+				EE94FE212FB13BC700A35228 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

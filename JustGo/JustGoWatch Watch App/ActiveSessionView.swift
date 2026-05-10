@@ -9,6 +9,8 @@ struct ActiveSessionView: View {
     @State private var startedAt: Date = Date()
     @State private var accumulated: TimeInterval = 0
     @State private var lastResumedAt: Date? = Date()
+    @State private var phaseAccumulated: TimeInterval = 0
+    @State private var phaseLastResumedAt: Date? = Date()
     @State private var isPaused: Bool = false
     @State private var reps: Int = 0
     @State private var phaseIndex: Int = 0
@@ -192,7 +194,7 @@ struct ActiveSessionView: View {
                 switch phase.type {
                 case .duration:
                     HStack(spacing: 4) {
-                        Text(formatTime(elapsed))
+                        Text(formatTime(currentPhaseElapsed(now: Date())))
                             .font(.system(size: 26, weight: .bold, design: .rounded).monospacedDigit())
                         if let t = phase.targetDuration {
                             Text("/ \(formatTime(t))")
@@ -211,6 +213,9 @@ struct ActiveSessionView: View {
                         }
                     }
                 }
+                Text("总: \(formatTime(elapsed))")
+                    .font(.caption2.monospacedDigit())
+                    .foregroundStyle(.secondary)
                 if phaseIndex + 1 < totalPhases {
                     Text("下一: \(goal.phases[phaseIndex + 1].name)")
                         .font(.caption2)
@@ -252,7 +257,6 @@ struct ActiveSessionView: View {
 
     private func advancePhase() {
         guard isPhased else { return }
-        // 当前阶段完成
         WKInterfaceDevice.current().play(.notification)
         let nextIndex = phaseIndex + 1
         if nextIndex >= totalPhases {
@@ -261,20 +265,28 @@ struct ActiveSessionView: View {
             finish(allPhasesDone: true)
         } else {
             phaseIndex = nextIndex
-            reps = 0   // 重置每阶段计数
+            reps = 0                       // 阶段计数清零
+            phaseAccumulated = 0           // 阶段计时清零
+            phaseLastResumedAt = isPaused ? nil : Date()
         }
     }
 
     private func togglePause() {
+        let now = Date()
         if isPaused {
             isPaused = false
-            lastResumedAt = Date()
+            lastResumedAt = now
+            phaseLastResumedAt = now
             WKInterfaceDevice.current().play(.click)
         } else {
             if let last = lastResumedAt {
-                accumulated += Date().timeIntervalSince(last)
+                accumulated += now.timeIntervalSince(last)
+            }
+            if let last = phaseLastResumedAt {
+                phaseAccumulated += now.timeIntervalSince(last)
             }
             lastResumedAt = nil
+            phaseLastResumedAt = nil
             isPaused = true
             WKInterfaceDevice.current().play(.click)
         }
@@ -288,6 +300,14 @@ struct ActiveSessionView: View {
         return accumulated
     }
 
+    private func currentPhaseElapsed(now: Date) -> TimeInterval {
+        if isPaused { return phaseAccumulated }
+        if let last = phaseLastResumedAt {
+            return phaseAccumulated + now.timeIntervalSince(last)
+        }
+        return phaseAccumulated
+    }
+
     private func progressFraction(elapsed: TimeInterval) -> Double {
         switch goal.type {
         case .duration:
@@ -297,8 +317,16 @@ struct ActiveSessionView: View {
             guard let target = goal.targetReps, target > 0 else { return 0 }
             return min(1.0, Double(reps) / Double(target))
         case .phased:
-            guard totalPhases > 0 else { return 0 }
-            return min(1.0, Double(phaseIndex) / Double(totalPhases))
+            // 当前阶段进度（基于阶段类型）
+            guard let phase = currentPhase else { return 1.0 }
+            switch phase.type {
+            case .duration:
+                guard let target = phase.targetDuration, target > 0 else { return 0 }
+                return min(1.0, currentPhaseElapsed(now: Date()) / target)
+            case .reps:
+                guard let target = phase.targetReps, target > 0 else { return 0 }
+                return min(1.0, Double(reps) / Double(target))
+            }
         }
     }
 
