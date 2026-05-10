@@ -86,7 +86,7 @@ struct StatsView: View {
             Text(chartTitle).font(.headline)
             Chart(chartData) { item in
                 BarMark(
-                    x: .value("Day", item.label),
+                    x: .value(xAxisLabel, item.id, unit: xUnit),
                     y: .value("Minutes", item.minutes)
                 )
                 .foregroundStyle(item.minutes > 0 ? Palette.primary : Palette.primary.opacity(0.25))
@@ -95,15 +95,46 @@ struct StatsView: View {
             .frame(height: 180)
             .chartYAxis { AxisMarks(position: .leading) }
             .chartXAxis {
-                AxisMarks(values: .automatic(desiredCount: range == .year ? 6 : 7)) { value in
+                AxisMarks(values: .stride(by: xUnit, count: xStrideCount)) { value in
                     AxisGridLine()
-                    AxisValueLabel()
+                    AxisTick()
+                    AxisValueLabel(format: xAxisFormat, centered: false)
                 }
             }
         }
         .padding()
         .background(Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var xAxisLabel: String {
+        switch range {
+        case .week, .month: return "Day"
+        case .year:         return "Month"
+        }
+    }
+
+    private var xUnit: Calendar.Component {
+        switch range {
+        case .week, .month: return .day
+        case .year:         return .month
+        }
+    }
+
+    private var xStrideCount: Int {
+        switch range {
+        case .week:  return 1
+        case .month: return 5
+        case .year:  return 2
+        }
+    }
+
+    private var xAxisFormat: Date.FormatStyle {
+        switch range {
+        case .week:  return .dateTime.month(.abbreviated).day()
+        case .month: return .dateTime.day()
+        case .year:  return .dateTime.month(.abbreviated)
+        }
     }
 
     private var chartTitle: String {

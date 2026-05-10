@@ -118,6 +118,16 @@
 		EE7DC64A2FAFE74000F2F204 /* PixelTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelTree.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EE94FDCB2FB1387400A35228 /* Exceptions for "JustGoWatch Watch App" folder in "JustGoWatch Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"JustGoWatch-Watch-App-Info.plist",
+			);
+			target = EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EE7DC6062FAFE38500F2F204 /* JustGo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -131,6 +141,9 @@
 		};
 		EE7DC6282FAFE41A00F2F204 /* JustGoWatch Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				EE94FDCB2FB1387400A35228 /* Exceptions for "JustGoWatch Watch App" folder in "JustGoWatch Watch App" target */,
+			);
 			path = "JustGoWatch Watch App";
 			sourceTree = "<group>";
 		};
@@ -676,16 +689,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "JustGoWatch Watch App/JustGoWatch Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4V326KM2CL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "JustGoWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = JustGoWatch;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "JustGo 读取你的心率与活动卡路里来记录健身过程，并自动停止后台运行。";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "JustGo 把你完成的健身记录写入 Apple Health。";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.zhihaoshu.JustGo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -713,16 +728,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "JustGoWatch Watch App/JustGoWatch Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4V326KM2CL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "JustGoWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = JustGoWatch;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "JustGo 读取你的心率与活动卡路里来记录健身过程，并自动停止后台运行。";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "JustGo 把你完成的健身记录写入 Apple Health。";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.zhihaoshu.JustGo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
