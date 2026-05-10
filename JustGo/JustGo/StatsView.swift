@@ -2,6 +2,25 @@ import SwiftUI
 import SwiftData
 import Charts
 
+enum StatsRange: String, CaseIterable, Identifiable {
+    case week, month, year
+    var id: String { rawValue }
+    var label: String {
+        switch self {
+        case .week:  return "本周"
+        case .month: return "本月"
+        case .year:  return "本年"
+        }
+    }
+    var days: Int {
+        switch self {
+        case .week:  return 7
+        case .month: return 30
+        case .year:  return 365
+        }
+    }
+}
+
 struct StatsView: View {
     @Query(
         filter: #Predicate<WorkoutSession> { $0.statusRaw == "completed" },
@@ -11,13 +30,24 @@ struct StatsView: View {
     private var sessions: [WorkoutSession]
 
     @Query private var profiles: [UserProfile]
+    @State private var range: StatsRange = .week
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 16) {
+                    Picker("范围", selection: $range) {
+                        ForEach(StatsRange.allCases) { r in
+                            Text(r.label).tag(r)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
                     summaryRow
-                    weeklyChartCard
+                    rangeChart
+                    if range == .year {
+                        heatmapCard
+                    }
                     typeBreakdownCard
                 }
                 .padding()
@@ -27,25 +57,13 @@ struct StatsView: View {
         }
     }
 
-    // MARK: - 顶部 3 个数字
+    // MARK: - 顶部三数字
 
     private var summaryRow: some View {
         HStack(spacing: 12) {
-            summary(
-                title: "本周",
-                value: formatMinutes(thisWeekTotalSeconds),
-                icon: "calendar"
-            )
-            summary(
-                title: "完成",
-                value: "\(thisWeekSessionCount) 次",
-                icon: "checkmark.circle.fill"
-            )
-            summary(
-                title: "连续",
-                value: "\(profiles.first?.streakDays ?? 0) 天",
-                icon: "flame.fill"
-            )
+            summary(title: range.label, value: formatMinutes(rangeTotalSeconds), icon: "calendar")
+            summary(title: "完成", value: "\(rangeSessionCount) 次", icon: "checkmark.circle.fill")
+            summary(title: "连续", value: "\(profiles.first?.streakDays ?? 0) 天", icon: "flame.fill")
         }
     }
 
@@ -61,22 +79,26 @@ struct StatsView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    // MARK: - 本周柱状图
+    // MARK: - 主图（柱状图 / 周分组）
 
-    private var weeklyChartCard: some View {
+    private var rangeChart: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("过去 7 天 · 运动时长").font(.headline)
-            Chart(weeklyData) { day in
+            Text(chartTitle).font(.headline)
+            Chart(chartData) { item in
                 BarMark(
-                    x: .value("Day", day.label),
-                    y: .value("Minutes", day.minutes)
+                    x: .value("Day", item.label),
+                    y: .value("Minutes", item.minutes)
                 )
-                .foregroundStyle(day.minutes > 0 ? Palette.primary : Palette.primary.opacity(0.25))
-                .cornerRadius(4)
+                .foregroundStyle(item.minutes > 0 ? Palette.primary : Palette.primary.opacity(0.25))
+                .cornerRadius(3)
             }
             .frame(height: 180)
-            .chartYAxis {
-                AxisMarks(position: .leading)
+            .chartYAxis { AxisMarks(position: .leading) }
+            .chartXAxis {
+                AxisMarks(values: .automatic(desiredCount: range == .year ? 6 : 7)) { value in
+                    AxisGridLine()
+                    AxisValueLabel()
+                }
             }
         }
         .padding()
@@ -84,7 +106,37 @@ struct StatsView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    // MARK: - 类型占比
+    private var chartTitle: String {
+        switch range {
+        case .week:  return "过去 7 天 · 运动时长"
+        case .month: return "过去 30 天 · 运动时长"
+        case .year:  return "过去 12 个月 · 运动时长"
+        }
+    }
+
+    // MARK: - 热力图（仅年视图）
+
+    private var heatmapCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("活跃日历").font(.headline)
+                Spacer()
+                Text("\(activeDayCount) 个活跃日")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            HeatmapGrid(values: dailyMinutes(days: 365))
+        }
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var activeDayCount: Int {
+        dailyMinutes(days: range.days).filter { $0.minutes > 0 }.count
+    }
+
+    // MARK: - 类型分布
 
     private var typeBreakdownCard: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -115,45 +167,67 @@ struct StatsView: View {
 
     // MARK: - 数据计算
 
-    private var thisWeekTotalSeconds: TimeInterval {
-        let start = Calendar.current.date(byAdding: .day, value: -6, to: Calendar.current.startOfDay(for: Date())) ?? Date()
-        return sessions
-            .filter { $0.startedAt >= start }
-            .reduce(0) { $0 + $1.totalDuration }
+    private var rangeStart: Date {
+        Calendar.current.date(byAdding: .day, value: -(range.days - 1),
+                              to: Calendar.current.startOfDay(for: Date())) ?? Date()
     }
 
-    private var thisWeekSessionCount: Int {
-        let start = Calendar.current.date(byAdding: .day, value: -6, to: Calendar.current.startOfDay(for: Date())) ?? Date()
-        return sessions.filter { $0.startedAt >= start }.count
+    private var rangeTotalSeconds: TimeInterval {
+        sessions.filter { $0.startedAt >= rangeStart }.reduce(0) { $0 + $1.totalDuration }
     }
 
-    private var weeklyData: [DailyStat] {
+    private var rangeSessionCount: Int {
+        sessions.filter { $0.startedAt >= rangeStart }.count
+    }
+
+    private var chartData: [DailyStat] {
+        switch range {
+        case .week:
+            return dailyMinutes(days: 7).map { DailyStat(id: $0.day, label: shortDay($0.day), minutes: $0.minutes) }
+        case .month:
+            return dailyMinutes(days: 30).map { DailyStat(id: $0.day, label: dayOfMonth($0.day), minutes: $0.minutes) }
+        case .year:
+            return monthlyMinutes()
+        }
+    }
+
+    private func dailyMinutes(days: Int) -> [HeatmapDay] {
         let cal = Calendar.current
         let todayStart = cal.startOfDay(for: Date())
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "zh_Hans_CN")
-        formatter.dateFormat = "M/d"
-
-        var data: [DailyStat] = []
-        for offset in (0..<7).reversed() {
+        var result: [HeatmapDay] = []
+        for offset in (0..<days).reversed() {
             guard let dayStart = cal.date(byAdding: .day, value: -offset, to: todayStart) else { continue }
             let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart
             let mins = sessions
                 .filter { $0.startedAt >= dayStart && $0.startedAt < dayEnd }
                 .reduce(0.0) { $0 + $1.totalDuration } / 60.0
-            data.append(DailyStat(
-                id: dayStart,
-                label: formatter.string(from: dayStart),
-                minutes: mins
-            ))
+            result.append(HeatmapDay(id: dayStart, minutes: mins))
         }
-        return data
+        return result
+    }
+
+    private func monthlyMinutes() -> [DailyStat] {
+        let cal = Calendar.current
+        var result: [DailyStat] = []
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "zh_Hans_CN")
+        formatter.dateFormat = "M月"
+        for offset in (0..<12).reversed() {
+            guard let monthStart = cal.date(byAdding: .month, value: -offset,
+                                            to: cal.date(from: cal.dateComponents([.year, .month], from: Date())) ?? Date())
+            else { continue }
+            let monthEnd = cal.date(byAdding: .month, value: 1, to: monthStart) ?? monthStart
+            let mins = sessions
+                .filter { $0.startedAt >= monthStart && $0.startedAt < monthEnd }
+                .reduce(0.0) { $0 + $1.totalDuration } / 60.0
+            result.append(DailyStat(id: monthStart, label: formatter.string(from: monthStart), minutes: mins))
+        }
+        return result
     }
 
     private var typeBreakdown: [TypeSlice] {
         let cutoff = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
         let recent = sessions.filter { $0.startedAt >= cutoff }
-        // 由于 SessionStatus 已存，但 GoalType 不在 Session 上 —— 用 totalDuration / reps 推断
         var counts: [String: Int] = [:]
         for session in recent {
             let label: String
@@ -167,6 +241,18 @@ struct StatsView: View {
             counts[label, default: 0] += 1
         }
         return counts.map { TypeSlice(id: $0.key, label: $0.key, count: $0.value) }
+    }
+
+    private func shortDay(_ date: Date) -> String {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "zh_Hans_CN")
+        f.dateFormat = "M/d"
+        return f.string(from: date)
+    }
+
+    private func dayOfMonth(_ date: Date) -> String {
+        let d = Calendar.current.component(.day, from: date)
+        return "\(d)"
     }
 
     private func formatMinutes(_ seconds: TimeInterval) -> String {
@@ -188,6 +274,57 @@ struct TypeSlice: Identifiable {
     let id: String
     let label: String
     let count: Int
+}
+
+// MARK: - GitHub 风格热力图
+
+struct HeatmapDay: Identifiable {
+    let id: Date
+    let minutes: Double
+    var day: Date { id }
+}
+
+struct HeatmapGrid: View {
+    let values: [HeatmapDay]
+
+    var body: some View {
+        let columns = chunked(into: 7)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .top, spacing: 3) {
+                ForEach(columns.indices, id: \.self) { col in
+                    VStack(spacing: 3) {
+                        ForEach(0..<7, id: \.self) { row in
+                            let cell = columns[col][safe: row]
+                            Rectangle()
+                                .fill(color(for: cell?.minutes ?? 0))
+                                .frame(width: 10, height: 10)
+                                .cornerRadius(2)
+                        }
+                    }
+                }
+            }
+            .padding(.vertical, 4)
+        }
+        .frame(height: 90)
+    }
+
+    private func chunked(into size: Int) -> [[HeatmapDay]] {
+        stride(from: 0, to: values.count, by: size).map {
+            Array(values[$0 ..< Swift.min($0 + size, values.count)])
+        }
+    }
+
+    private func color(for minutes: Double) -> Color {
+        if minutes <= 0 { return Color.gray.opacity(0.18) }
+        let intensity = Swift.min(1.0, minutes / 60.0)
+        return Palette.primary.opacity(0.25 + 0.75 * intensity)
+    }
+}
+
+private extension Array {
+    subscript(safe index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
 }
 
 #Preview {

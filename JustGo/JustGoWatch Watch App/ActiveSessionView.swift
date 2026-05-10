@@ -1,5 +1,6 @@
 import SwiftUI
 import WatchKit
+import HealthKit
 
 struct ActiveSessionView: View {
     let goal: WatchGoalSnapshot
@@ -13,6 +14,7 @@ struct ActiveSessionView: View {
     @State private var phaseIndex: Int = 0
     @State private var showEndConfirm: Bool = false
     @State private var showPhaseMenu: Bool = false
+    @StateObject private var workout = WorkoutManager.shared
 
     private var isPhased: Bool { goal.type == .phased }
     private var currentPhase: ActiveGoalsPayload.PhaseSnapshot? {
@@ -47,6 +49,18 @@ struct ActiveSessionView: View {
         }
         .onAppear {
             WKInterfaceDevice.current().play(.start)
+            Task {
+                await workout.requestAuthorization()
+                workout.start(activityType: hkActivityType)
+            }
+        }
+    }
+
+    private var hkActivityType: HKWorkoutActivityType {
+        switch goal.type {
+        case .duration: return .traditionalStrengthTraining
+        case .reps:     return .functionalStrengthTraining
+        case .phased:   return .highIntensityIntervalTraining
         }
     }
 
@@ -82,6 +96,20 @@ struct ActiveSessionView: View {
                 pose: isPaused ? .waiting : .excited,
                 pixelSize: 3
             )
+
+            if workout.heartRate > 0 || workout.activeEnergyKcal > 0 {
+                HStack(spacing: 10) {
+                    if workout.heartRate > 0 {
+                        Label("\(Int(workout.heartRate))", systemImage: "heart.fill")
+                            .foregroundStyle(.red)
+                    }
+                    if workout.activeEnergyKcal > 0 {
+                        Label(String(format: "%.0f", workout.activeEnergyKcal), systemImage: "flame.fill")
+                            .foregroundStyle(.orange)
+                    }
+                }
+                .font(.caption.monospacedDigit())
+            }
 
             ProgressView(value: progressFraction(elapsed: elapsed))
                 .tint(Palette.primary)
@@ -289,6 +317,7 @@ struct ActiveSessionView: View {
             accumulated += Date().timeIntervalSince(last)
         }
         WKInterfaceDevice.current().play(.success)
+        workout.stop()
         let completedPhases = allPhasesDone ? totalPhases : phaseIndex
         let result = SessionResult(
             goal: goal,

@@ -684,6 +684,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = JustGoWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "JustGo 读取你的心率与活动卡路里来记录健身过程，并自动停止后台运行。";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "JustGo 把你完成的健身记录写入 Apple Health。";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.zhihaoshu.JustGo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -719,6 +721,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = JustGoWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "JustGo 读取你的心率与活动卡路里来记录健身过程，并自动停止后台运行。";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "JustGo 把你完成的健身记录写入 Apple Health。";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.zhihaoshu.JustGo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
