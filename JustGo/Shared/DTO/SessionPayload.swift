@@ -1,5 +1,17 @@
 import Foundation
 
+/// Watch 开始 session 时通知 iPhone 启动 Live Activity 的轻量消息
+struct SessionStartedPayload: Codable {
+    let goalID: UUID
+    let goalTitle: String
+    let goalTypeRaw: String
+    let targetDuration: TimeInterval?
+    let targetReps: Int?
+    let startedAt: Date
+
+    static let messageKey = "JustGo.SessionStarted.v1"
+}
+
 struct SessionPayload: Codable {
     let id: UUID
     let goalID: UUID

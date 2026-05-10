@@ -15,6 +15,7 @@ struct ActiveSessionView: View {
     @State private var showEndConfirm: Bool = false
     @State private var showPhaseMenu: Bool = false
     @StateObject private var workout = WorkoutManager.shared
+    @EnvironmentObject private var sync: WatchSessionDelegate
 
     private var isPhased: Bool { goal.type == .phased }
     private var currentPhase: ActiveGoalsPayload.PhaseSnapshot? {
@@ -49,6 +50,7 @@ struct ActiveSessionView: View {
         }
         .onAppear {
             WKInterfaceDevice.current().play(.start)
+            sync.notifySessionStarted(goal, startedAt: startedAt)
             Task {
                 await workout.requestAuthorization()
                 workout.start(activityType: hkActivityType)

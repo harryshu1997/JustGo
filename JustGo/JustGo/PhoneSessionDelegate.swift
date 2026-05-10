@@ -102,6 +102,24 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
     }
 
     private func handleSessionPayload(_ dict: [String: Any]) {
+        if let started = ConnectivityCoder.unwrapFromContext(
+            dict,
+            key: SessionStartedPayload.messageKey,
+            type: SessionStartedPayload.self
+        ) {
+            print("[Phone] received session START goal=\(started.goalTitle)")
+            Task { @MainActor in
+                LiveActivityManager.shared.start(
+                    goalID: started.goalID,
+                    title: started.goalTitle,
+                    goalTypeRaw: started.goalTypeRaw,
+                    targetDuration: started.targetDuration,
+                    targetReps: started.targetReps,
+                    startedAt: started.startedAt
+                )
+            }
+            return
+        }
         guard let payload = ConnectivityCoder.unwrapFromContext(
             dict,
             key: SessionPayload.messageKey,
@@ -113,6 +131,7 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
         print("[Phone] received session goal=\(payload.goalSnapshotTitle) duration=\(payload.totalDuration)s")
         Task { @MainActor in
             persist(payload)
+            LiveActivityManager.shared.endCurrent()
         }
     }
 

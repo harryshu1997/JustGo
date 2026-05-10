@@ -118,16 +118,6 @@
 		EE7DC64A2FAFE74000F2F204 /* PixelTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelTree.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		EE94FDCB2FB1387400A35228 /* Exceptions for "JustGoWatch Watch App" folder in "JustGoWatch Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"JustGoWatch-Watch-App-Info.plist",
-			);
-			target = EE7DC6232FAFE41A00F2F204 /* JustGoWatch Watch App */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EE7DC6062FAFE38500F2F204 /* JustGo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -141,9 +131,6 @@
 		};
 		EE7DC6282FAFE41A00F2F204 /* JustGoWatch Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				EE94FDCB2FB1387400A35228 /* Exceptions for "JustGoWatch Watch App" folder in "JustGoWatch Watch App" target */,
-			);
 			path = "JustGoWatch Watch App";
 			sourceTree = "<group>";
 		};
@@ -610,6 +597,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "JustGo 在你完成健身目标时把记录写入日历，方便你回顾打卡。";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -653,6 +641,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "JustGo 在你完成健身目标时把记录写入日历，方便你回顾打卡。";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

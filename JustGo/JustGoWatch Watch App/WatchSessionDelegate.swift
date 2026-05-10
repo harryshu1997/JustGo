@@ -27,6 +27,32 @@ final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate 
         print("[Watch] WCSession.activate() called")
     }
 
+    func notifySessionStarted(_ goal: WatchGoalSnapshot, startedAt: Date) {
+        guard WCSession.isSupported() else { return }
+        let session = WCSession.default
+        guard session.activationState == .activated, session.isReachable else {
+            print("[Watch] not reachable, skip session start notify")
+            return
+        }
+        let payload = SessionStartedPayload(
+            goalID: goal.id,
+            goalTitle: goal.title,
+            goalTypeRaw: goal.typeRaw,
+            targetDuration: goal.targetDuration,
+            targetReps: goal.targetReps,
+            startedAt: startedAt
+        )
+        let dict = ConnectivityCoder.wrapForContext(payload, key: SessionStartedPayload.messageKey)
+        session.sendMessage(
+            dict,
+            replyHandler: nil,
+            errorHandler: { error in
+                print("[Watch] sessionStarted sendMessage error: \(error)")
+            }
+        )
+        print("[Watch] sessionStarted notified")
+    }
+
     func completeSession(_ result: SessionResult) {
         completedGoalIDs.insert(result.goal.id)
         let payload = SessionPayload(

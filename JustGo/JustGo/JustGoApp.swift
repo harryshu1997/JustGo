@@ -20,6 +20,9 @@ struct JustGoApp: App {
             fatalError("ModelContainer init failed: \(error)")
         }
         PhoneSessionDelegate.shared.activate(container: modelContainer)
+        Task { @MainActor in
+            LiveActivityManager.shared.reconcileOnLaunch()
+        }
     }
 
     var body: some Scene {
