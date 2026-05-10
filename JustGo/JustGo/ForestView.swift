@@ -57,18 +57,25 @@ struct ForestView: View {
                         .foregroundStyle(.secondary)
                     Spacer()
                 }
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: 320)
             } else {
-                ForEach(trees) { tree in
-                    PixelTreeView(
-                        pattern: PixelTreePatterns.oak(stage: tree.growthStage),
-                        pixelSize: 4
-                    )
-                    .offset(x: tree.x, y: tree.y)
+                TimelineView(.periodic(from: .now, by: 0.5)) { context in
+                    ZStack {
+                        ForEach(trees) { tree in
+                            PixelTreeView(
+                                pattern: pattern(for: tree, at: context.date),
+                                pixelSize: 4,
+                                isWilted: tree.isWilted
+                            )
+                            .offset(x: tree.x, y: tree.y)
+                            .scaleEffect(scaleForStage(currentStage(for: tree, at: context.date)))
+                            .animation(.easeInOut(duration: 0.6), value: currentStage(for: tree, at: context.date))
+                        }
+                    }
                 }
             }
 
-            PixelBuddyView(stage: profile?.buddyStage ?? .baby, pixelSize: 4)
+            RoamingBuddyView(stage: profile?.buddyStage ?? .baby)
                 .padding(.leading, 16)
                 .padding(.bottom, 16)
         }
@@ -76,21 +83,9 @@ struct ForestView: View {
 
     private var stats: some View {
         HStack(spacing: 16) {
-            stat(
-                title: "已种",
-                value: "\(trees.count) 棵",
-                icon: "tree.fill"
-            )
-            stat(
-                title: "Buddy",
-                value: profile?.buddyStage.displayName ?? "—",
-                icon: "pawprint.fill"
-            )
-            stat(
-                title: "连续",
-                value: "\(profile?.streakDays ?? 0) 天",
-                icon: "flame.fill"
-            )
+            stat(title: "已种", value: "\(trees.count) 棵", icon: "tree.fill")
+            stat(title: "Buddy", value: profile?.buddyStage.displayName ?? "—", icon: "pawprint.fill")
+            stat(title: "连续", value: "\(profile?.streakDays ?? 0) 天", icon: "flame.fill")
         }
     }
 
@@ -110,6 +105,63 @@ struct ForestView: View {
         guard let p = profile else { return 0 }
         let target = max(100, p.level * 1000)
         return min(1.0, Double(p.totalPoints) / Double(target))
+    }
+
+    private func currentStage(for tree: Tree, at now: Date) -> Int {
+        let elapsed = now.timeIntervalSince(tree.plantedAt)
+        if elapsed < 10 { return 0 }
+        if elapsed < 25 { return 1 }
+        if elapsed < 45 { return 2 }
+        return 3
+    }
+
+    private func scaleForStage(_ stage: Int) -> CGFloat {
+        switch stage {
+        case 0: return 0.6
+        case 1: return 0.75
+        case 2: return 0.9
+        default: return 1.0
+        }
+    }
+
+    private func pattern(for tree: Tree, at now: Date) -> [[PixelColor]] {
+        let stage = currentStage(for: tree, at: now)
+        switch tree.species {
+        case .sakura:
+            return PixelTreePatterns.sakura(stage: stage)
+        case .shrub, .oak, .sequoia:
+            return PixelTreePatterns.oak(stage: stage)
+        }
+    }
+}
+
+/// Buddy 在森林角落随机漂动
+struct RoamingBuddyView: View {
+    let stage: BuddyStage
+
+    @State private var dx: CGFloat = 0
+    @State private var dy: CGFloat = 0
+
+    var body: some View {
+        PixelBuddyView(stage: stage, pixelSize: 4)
+            .offset(x: dx, y: dy)
+            .onAppear { startRoaming() }
+    }
+
+    private func startRoaming() {
+        roam()
+        Timer.scheduledTimer(withTimeInterval: 4.0, repeats: true) { _ in
+            roam()
+        }
+    }
+
+    private func roam() {
+        let nextX = CGFloat.random(in: 0...60)
+        let nextY = CGFloat.random(in: (-20)...20)
+        withAnimation(.easeInOut(duration: 2.0)) {
+            dx = nextX
+            dy = nextY
+        }
     }
 }
 

@@ -9,6 +9,7 @@ final class Tree {
     var plantedAt: Date = Date()
     var growthStage: Int = 3
     var isAlive: Bool = true
+    var isWilted: Bool = false   // 未达标记录：仍种树但灰色枯萎
     var x: Double = 0
     var y: Double = 0
 
@@ -20,11 +21,13 @@ final class Tree {
     init(
         sessionID: UUID? = nil,
         species: TreeSpecies = .oak,
+        isWilted: Bool = false,
         x: Double = 0,
         y: Double = 0
     ) {
         self.sessionID = sessionID
         self.speciesRaw = species.rawValue
+        self.isWilted = isWilted
         self.x = x
         self.y = y
     }

@@ -4,6 +4,7 @@ import SwiftData
 struct ProfileView: View {
     @Environment(\.modelContext) private var context
     @Query private var profiles: [UserProfile]
+    @State private var calendarEnabled: Bool = false
 
     private var profile: UserProfile {
         if let p = profiles.first { return p }
@@ -36,17 +37,31 @@ struct ProfileView: View {
                     HStack { Text("连续打卡"); Spacer(); Text("\(profile.streakDays) 天") }
                 }
 
-                Section("权限") {
-                    Text("日历集成将在 Phase 2 启用")
+                Section("日历集成") {
+                    Toggle("完成时写入日历", isOn: $calendarEnabled)
+                        .onChange(of: calendarEnabled) { _, newValue in
+                            Task {
+                                if newValue {
+                                    let granted = await CalendarService.shared.requestAccessAndEnable()
+                                    if !granted { calendarEnabled = false }
+                                } else {
+                                    CalendarService.shared.disable()
+                                }
+                            }
+                        }
+                    Text("授权后，每次完成 session 会在原生日历自动创建一条记录")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
                 Section("关于") {
-                    HStack { Text("版本"); Spacer(); Text("MVP 0.1") }
+                    HStack { Text("版本"); Spacer(); Text("Phase 2") }
                 }
             }
             .navigationTitle("我的")
+            .onAppear {
+                calendarEnabled = CalendarService.shared.isEnabled
+            }
         }
     }
 

@@ -38,6 +38,8 @@ final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate 
             totalDuration: result.duration,
             actualReps: result.reps,
             goalTypeRaw: result.goal.typeRaw,
+            targetDuration: result.goal.targetDuration,
+            targetReps: result.goal.targetReps,
             sourceDevice: "watch"
         )
         let dict = ConnectivityCoder.wrapForContext(

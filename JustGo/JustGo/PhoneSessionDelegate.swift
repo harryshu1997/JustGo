@@ -133,32 +133,32 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
         session.status = .completed
 
         let type = GoalType(rawValue: payload.goalTypeRaw) ?? .duration
+        let completedFully = payload.completedFully
         session.earnedPoints = PointsCalculator.points(
             for: type,
             actualDuration: payload.totalDuration,
             actualReps: payload.actualReps,
-            completedFully: true,
+            completedFully: completedFully,
             streakDays: 0
         )
 
         context.insert(session)
 
-        if let species = TreeSpawnRules.species(
+        // 始终记录一棵树：达标用 species 颜色，未达标 isWilted=true 灰色显示
+        let species = TreeSpawnRules.species(
             for: type,
             actualDuration: payload.totalDuration,
-            completedFully: true
-        ) {
-            let tree = Tree(
-                sessionID: session.id,
-                species: species,
-                x: Double.random(in: 20...240),
-                y: Double.random(in: (-280)...(-40))
-            )
-            context.insert(tree)
-            print("[Phone] tree planted species=\(species.rawValue) at (\(tree.x), \(tree.y))")
-        } else {
-            print("[Phone] no tree species returned for type=\(type.rawValue)")
-        }
+            completedFully: true  // 强制返回 species，wilted 状态由我们打标
+        ) ?? .shrub
+        let tree = Tree(
+            sessionID: session.id,
+            species: species,
+            isWilted: !completedFully,
+            x: Double.random(in: 20...240),
+            y: Double.random(in: (-280)...(-40))
+        )
+        context.insert(tree)
+        print("[Phone] tree planted species=\(species.rawValue) wilted=\(!completedFully) at (\(tree.x), \(tree.y))")
 
         let exp = BuddyExpCalculator.exp(
             actualDuration: payload.totalDuration,
@@ -176,6 +176,19 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
         markPlanCompletion(goalID: payload.goalID, in: context)
 
         try? context.save()
+
+        let calendarID = CalendarService.shared.writeEvent(
+            title: session.goalSnapshotTitle,
+            startedAt: session.startedAt,
+            endedAt: session.endedAt ?? Date(),
+            durationSeconds: session.totalDuration,
+            points: session.earnedPoints,
+            sourceDevice: session.sourceDevice
+        )
+        if let calendarID {
+            session.calendarEventIdentifier = calendarID
+            try? context.save()
+        }
     }
 
     @MainActor

@@ -13,6 +13,7 @@ enum PixelColor: Int {
 struct PixelTreeView: View {
     let pattern: [[PixelColor]]
     var pixelSize: CGFloat = 6
+    var isWilted: Bool = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -26,9 +27,11 @@ struct PixelTreeView: View {
                 }
             }
         }
+        .opacity(isWilted ? 0.55 : 1.0)
     }
 
     private func color(for c: PixelColor) -> Color {
+        if isWilted { return wiltedColor(for: c) }
         switch c {
         case .empty:        return .clear
         case .trunk:        return Palette.trunk
@@ -37,6 +40,18 @@ struct PixelTreeView: View {
         case .primaryLight: return Palette.primaryLight
         case .sakuraLight:  return Palette.sakuraLight
         case .sakuraDark:   return Palette.sakuraDark
+        }
+    }
+
+    private func wiltedColor(for c: PixelColor) -> Color {
+        switch c {
+        case .empty:        return .clear
+        case .trunk:        return Color(white: 0.30)
+        case .primaryDark:  return Color(white: 0.40)
+        case .primary:      return Color(white: 0.55)
+        case .primaryLight: return Color(white: 0.70)
+        case .sakuraLight:  return Color(white: 0.70)
+        case .sakuraDark:   return Color(white: 0.55)
         }
     }
 }

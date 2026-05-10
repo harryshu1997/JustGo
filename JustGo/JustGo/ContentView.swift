@@ -12,6 +12,9 @@ struct ContentView: View {
             HistoryView()
                 .tabItem { Label("历史", systemImage: "clock.arrow.circlepath") }
 
+            StatsView()
+                .tabItem { Label("统计", systemImage: "chart.bar.fill") }
+
             ProfileView()
                 .tabItem { Label("我的", systemImage: "person.fill") }
         }
