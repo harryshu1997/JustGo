@@ -12,6 +12,8 @@ struct SessionPayload: Codable {
     let targetDuration: TimeInterval?
     let targetReps: Int?
     let sourceDevice: String
+    var completedPhases: Int = 0
+    var totalPhases: Int = 0
 
     static let messageKey = "JustGo.SessionPayload.v1"
 
@@ -24,7 +26,7 @@ struct SessionPayload: Codable {
             guard let target = targetReps else { return true }
             return actualReps >= target
         case .phased:
-            return true  // 分阶段当下用户走完算完成；后续 Phase 2.5 细化
+            return totalPhases > 0 && completedPhases >= totalPhases
         }
     }
 }
@@ -41,5 +43,16 @@ struct ActiveGoalsPayload: Codable {
         let typeRaw: String
         let targetDuration: TimeInterval?
         let targetReps: Int?
+        var phases: [PhaseSnapshot] = []
+    }
+
+    struct PhaseSnapshot: Codable, Hashable {
+        let id: UUID
+        let name: String
+        let typeRaw: String
+        let targetDuration: TimeInterval?
+        let targetReps: Int?
+
+        var type: PhaseType { PhaseType(rawValue: typeRaw) ?? .duration }
     }
 }

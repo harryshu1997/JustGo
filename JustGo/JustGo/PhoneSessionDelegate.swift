@@ -144,11 +144,19 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
 
         context.insert(session)
 
-        // 始终记录一棵树：达标用 species 颜色，未达标 isWilted=true 灰色显示
+        // 先把已有所有活着的树往上长一阶段（最大 3）
+        let existingDescriptor = FetchDescriptor<Tree>()
+        if let existingTrees = try? context.fetch(existingDescriptor) {
+            for t in existingTrees where t.isAlive && t.growthStage < 3 {
+                t.growthStage += 1
+            }
+        }
+
+        // 然后种新树（初始 0 阶段，等下次完成 session 再长）
         let species = TreeSpawnRules.species(
             for: type,
             actualDuration: payload.totalDuration,
-            completedFully: true  // 强制返回 species，wilted 状态由我们打标
+            completedFully: true
         ) ?? .shrub
         let tree = Tree(
             sessionID: session.id,
@@ -157,8 +165,9 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
             x: Double.random(in: 20...240),
             y: Double.random(in: (-280)...(-40))
         )
+        tree.growthStage = 0
         context.insert(tree)
-        print("[Phone] tree planted species=\(species.rawValue) wilted=\(!completedFully) at (\(tree.x), \(tree.y))")
+        print("[Phone] tree planted species=\(species.rawValue) wilted=\(!completedFully) stage=0")
 
         let exp = BuddyExpCalculator.exp(
             actualDuration: payload.totalDuration,

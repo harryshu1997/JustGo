@@ -188,12 +188,24 @@ struct HomeView: View {
         let ids = today?.orderedGoalIDs ?? []
         let snapshots = ids.compactMap { id -> ActiveGoalsPayload.GoalSnapshot? in
             guard let g = goals.first(where: { $0.id == id }) else { return nil }
+            let phaseSnapshots = (g.phases ?? [])
+                .sorted(by: { $0.order < $1.order })
+                .map { p in
+                    ActiveGoalsPayload.PhaseSnapshot(
+                        id: p.id,
+                        name: p.name,
+                        typeRaw: p.typeRaw,
+                        targetDuration: p.targetDuration,
+                        targetReps: p.targetReps
+                    )
+                }
             return .init(
                 id: g.id,
                 title: g.title,
                 typeRaw: g.typeRaw,
                 targetDuration: g.targetDuration,
-                targetReps: g.targetReps
+                targetReps: g.targetReps,
+                phases: phaseSnapshots
             )
         }
         let payload = ActiveGoalsPayload(dailyPlanGoalIDs: ids, goals: snapshots)

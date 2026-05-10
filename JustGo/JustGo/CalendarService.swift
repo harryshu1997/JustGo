@@ -9,8 +9,13 @@ final class CalendarService {
     private let enabledKey = "JustGo.calendarEnabled"
 
     var isEnabled: Bool {
-        UserDefaults.standard.bool(forKey: enabledKey)
-            && currentAuthorization == .fullAccess
+        guard UserDefaults.standard.bool(forKey: enabledKey) else { return false }
+        let status = currentAuthorization
+        return status == .fullAccess || status == .writeOnly
+    }
+
+    var canRemoveEvents: Bool {
+        currentAuthorization == .fullAccess
     }
 
     var currentAuthorization: EKAuthorizationStatus {
@@ -18,10 +23,13 @@ final class CalendarService {
     }
 
     func requestAccessAndEnable() async -> Bool {
+        let before = currentAuthorization
+        print("[Calendar] requesting access, current status=\(before.rawValue)")
         do {
             let granted = try await store.requestFullAccessToEvents()
+            let after = currentAuthorization
             UserDefaults.standard.set(granted, forKey: enabledKey)
-            print("[Calendar] permission granted=\(granted)")
+            print("[Calendar] granted=\(granted) status=\(after.rawValue) (1=restricted 2=denied 3=fullAccess 4=writeOnly)")
             return granted
         } catch {
             print("[Calendar] permission error: \(error)")

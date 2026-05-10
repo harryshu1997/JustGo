@@ -82,6 +82,7 @@ struct WatchGoalSnapshot: Hashable, Identifiable {
     let typeRaw: String
     let targetDuration: TimeInterval?
     let targetReps: Int?
+    var phases: [ActiveGoalsPayload.PhaseSnapshot] = []
 
     var type: GoalType { GoalType(rawValue: typeRaw) ?? .duration }
 
@@ -96,7 +97,7 @@ struct WatchGoalSnapshot: Hashable, Identifiable {
             if let r = targetReps { return "\(r) 个" }
             return "次数型"
         case .phased:
-            return "分阶段"
+            return "\(phases.count) 阶段"
         }
     }
 }
@@ -107,4 +108,5 @@ struct SessionResult: Hashable {
     let endedAt: Date
     let duration: TimeInterval
     let reps: Int
+    var completedPhases: Int = 0
 }

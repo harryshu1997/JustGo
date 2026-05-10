@@ -40,7 +40,9 @@ final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate 
             goalTypeRaw: result.goal.typeRaw,
             targetDuration: result.goal.targetDuration,
             targetReps: result.goal.targetReps,
-            sourceDevice: "watch"
+            sourceDevice: "watch",
+            completedPhases: result.completedPhases,
+            totalPhases: result.goal.phases.count
         )
         let dict = ConnectivityCoder.wrapForContext(
             payload,
@@ -115,7 +117,8 @@ final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate 
                 title: $0.title,
                 typeRaw: $0.typeRaw,
                 targetDuration: $0.targetDuration,
-                targetReps: $0.targetReps
+                targetReps: $0.targetReps,
+                phases: $0.phases
             )
         }
         // 跨日清理：让新的一天 completedGoalIDs 重置

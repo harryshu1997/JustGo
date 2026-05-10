@@ -83,18 +83,16 @@ struct ForestView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: 320)
             } else {
-                TimelineView(.periodic(from: .now, by: 0.5)) { context in
-                    ZStack {
-                        ForEach(trees) { tree in
-                            PixelTreeView(
-                                pattern: pattern(for: tree, at: context.date),
-                                pixelSize: 4,
-                                isWilted: tree.isWilted
-                            )
-                            .offset(x: tree.x, y: tree.y)
-                            .scaleEffect(scaleForStage(currentStage(for: tree, at: context.date)))
-                            .animation(.easeInOut(duration: 0.6), value: currentStage(for: tree, at: context.date))
-                        }
+                ZStack {
+                    ForEach(trees) { tree in
+                        PixelTreeView(
+                            pattern: pattern(for: tree),
+                            pixelSize: 4,
+                            isWilted: tree.isWilted
+                        )
+                        .offset(x: tree.x, y: tree.y)
+                        .scaleEffect(scaleForStage(tree.growthStage))
+                        .animation(.spring(response: 0.5, dampingFraction: 0.7), value: tree.growthStage)
                     }
                 }
             }
@@ -137,15 +135,6 @@ struct ForestView: View {
         return min(1.0, Double(p.totalPoints) / Double(target))
     }
 
-    private func currentStage(for tree: Tree, at now: Date) -> Int {
-        if !tree.isAlive { return 3 }
-        let elapsed = now.timeIntervalSince(tree.plantedAt)
-        if elapsed < 10 { return 0 }
-        if elapsed < 25 { return 1 }
-        if elapsed < 45 { return 2 }
-        return 3
-    }
-
     private func scaleForStage(_ stage: Int) -> CGFloat {
         switch stage {
         case 0: return 0.6
@@ -155,14 +144,13 @@ struct ForestView: View {
         }
     }
 
-    private func pattern(for tree: Tree, at now: Date) -> [[PixelColor]] {
+    private func pattern(for tree: Tree) -> [[PixelColor]] {
         if !tree.isAlive { return PixelTreePatterns.stump }
-        let stage = currentStage(for: tree, at: now)
         switch tree.species {
         case .sakura:
-            return PixelTreePatterns.sakura(stage: stage)
+            return PixelTreePatterns.sakura(stage: tree.growthStage)
         case .shrub, .oak, .sequoia:
-            return PixelTreePatterns.oak(stage: stage)
+            return PixelTreePatterns.oak(stage: tree.growthStage)
         }
     }
 }

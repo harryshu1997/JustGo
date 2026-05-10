@@ -4,6 +4,7 @@ import SwiftData
 struct GoalEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
+    @Query private var allGoals: [FitnessGoal]
 
     var existing: FitnessGoal? = nil
 
@@ -14,8 +15,21 @@ struct GoalEditorView: View {
     @State private var reps: Int = 30
     @State private var phaseDrafts: [PhaseDraft] = []
 
+    private var trimmedTitle: String {
+        title.trimmingCharacters(in: .whitespaces)
+    }
+
+    private var isDuplicateName: Bool {
+        guard !trimmedTitle.isEmpty else { return false }
+        return allGoals.contains { other in
+            other.id != existing?.id
+                && other.title.trimmingCharacters(in: .whitespaces) == trimmedTitle
+        }
+    }
+
     private var canSave: Bool {
-        guard !title.trimmingCharacters(in: .whitespaces).isEmpty else { return false }
+        guard !trimmedTitle.isEmpty else { return false }
+        guard !isDuplicateName else { return false }
         if type == .phased { return !phaseDrafts.isEmpty }
         return true
     }
@@ -25,6 +39,11 @@ struct GoalEditorView: View {
             Form {
                 Section("基本信息") {
                     TextField("名称（如：晨跑）", text: $title)
+                    if isDuplicateName {
+                        Label("已有同名目标，请换个名字", systemImage: "exclamationmark.triangle.fill")
+                            .foregroundStyle(.orange)
+                            .font(.caption)
+                    }
                     TextField("描述（选填）", text: $description, axis: .vertical)
                         .lineLimit(2...4)
                 }

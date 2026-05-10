@@ -6,6 +6,7 @@ struct ProfileView: View {
     @Query private var profiles: [UserProfile]
     @State private var calendarEnabled: Bool = false
     @State private var buddyNameDraft: String = ""
+    @State private var showCalendarDeniedAlert: Bool = false
 
     private var profile: UserProfile {
         if let p = profiles.first { return p }
@@ -56,7 +57,10 @@ struct ProfileView: View {
                             Task {
                                 if newValue {
                                     let granted = await CalendarService.shared.requestAccessAndEnable()
-                                    if !granted { calendarEnabled = false }
+                                    if !granted {
+                                        calendarEnabled = false
+                                        showCalendarDeniedAlert = true
+                                    }
                                 } else {
                                     CalendarService.shared.disable()
                                 }
@@ -75,6 +79,11 @@ struct ProfileView: View {
             .onAppear {
                 calendarEnabled = CalendarService.shared.isEnabled
                 buddyNameDraft = profile.buddyName
+            }
+            .alert("无法访问日历", isPresented: $showCalendarDeniedAlert) {
+                Button("好") {}
+            } message: {
+                Text("到 设置 → 隐私与安全 → 日历 中允许 JustGo 访问，然后回到这里再打开开关。")
             }
         }
     }
