@@ -12,6 +12,7 @@ struct ActiveSessionView: View {
     @State private var reps: Int = 0
     @State private var phaseIndex: Int = 0
     @State private var showEndConfirm: Bool = false
+    @State private var showPhaseMenu: Bool = false
 
     private var isPhased: Bool { goal.type == .phased }
     private var currentPhase: ActiveGoalsPayload.PhaseSnapshot? {
@@ -31,9 +32,34 @@ struct ActiveSessionView: View {
         } message: {
             Text(endConfirmMessage)
         }
+        .confirmationDialog(
+            phaseMenuTitle,
+            isPresented: $showPhaseMenu,
+            titleVisibility: .visible
+        ) {
+            Button(advanceButtonTitle) {
+                advancePhase()
+            }
+            Button("结束整个目标", role: .destructive) {
+                showEndConfirm = true
+            }
+            Button("取消", role: .cancel) {}
+        }
         .onAppear {
             WKInterfaceDevice.current().play(.start)
         }
+    }
+
+    private var phaseMenuTitle: String {
+        guard let phase = currentPhase else { return "操作" }
+        return "「\(phase.name)」(第 \(phaseIndex + 1)/\(totalPhases) 阶段)"
+    }
+
+    private var advanceButtonTitle: String {
+        if phaseIndex + 1 >= totalPhases {
+            return "完成最后阶段"
+        }
+        return "下一阶段：\(goal.phases[phaseIndex + 1].name)"
     }
 
     @ViewBuilder
@@ -61,7 +87,7 @@ struct ActiveSessionView: View {
                 .tint(Palette.primary)
 
             if isPhased {
-                Text("单点 → 下一阶段 · 长按 → 结束")
+                Text(phasedHintText)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
@@ -73,7 +99,23 @@ struct ActiveSessionView: View {
             handleSingleTap()
         }
         .onLongPressGesture(minimumDuration: 1.0) {
-            WKInterfaceDevice.current().play(.retry)
+            handleLongPress()
+        }
+    }
+
+    private var phasedHintText: String {
+        guard let phase = currentPhase else { return "" }
+        switch phase.type {
+        case .reps:    return "单点 +1 · 长按弹出菜单"
+        case .duration: return "单点暂停 · 长按弹出菜单"
+        }
+    }
+
+    private func handleLongPress() {
+        WKInterfaceDevice.current().play(.retry)
+        if isPhased && currentPhase != nil {
+            showPhaseMenu = true
+        } else {
             showEndConfirm = true
         }
     }
@@ -162,7 +204,19 @@ struct ActiveSessionView: View {
                 togglePause()
             }
         case .phased:
-            advancePhase()
+            // 阶段推进改为长按菜单触发，单点根据当前阶段类型执行计数或暂停
+            guard let phase = currentPhase else { return }
+            switch phase.type {
+            case .reps:
+                if !isPaused {
+                    reps += 1
+                    WKInterfaceDevice.current().play(.click)
+                } else {
+                    togglePause()
+                }
+            case .duration:
+                togglePause()
+            }
         }
     }
 
