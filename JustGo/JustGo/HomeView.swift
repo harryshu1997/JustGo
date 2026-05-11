@@ -73,10 +73,21 @@ struct HomeView: View {
 
     private var greeting: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("早上好 🌱")
+            Text(greetingText)
                 .font(.title2.bold())
             Text("今日已完成 \(todayCompleted) / \(todayTotal) 个目标")
                 .foregroundStyle(.secondary)
+        }
+    }
+
+    private var greetingText: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 5..<11:  return "早上好 🌱"
+        case 11..<13: return "中午好 🍱"
+        case 13..<18: return "下午好 ☀️"
+        case 18..<23: return "晚上好 🌙"
+        default:      return "夜深了 🌌"
         }
     }
 
