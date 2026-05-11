@@ -17,7 +17,7 @@ final class WorkoutManager: NSObject, ObservableObject {
 
     func requestAuthorization() async {
         guard HKHealthStore.isHealthDataAvailable() else {
-            print("[Health] not available")
+            dlog("[Health] not available")
             return
         }
         let typesToShare: Set<HKSampleType> = [HKWorkoutType.workoutType()]
@@ -29,9 +29,9 @@ final class WorkoutManager: NSObject, ObservableObject {
         do {
             try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
             isAuthorized = true
-            print("[Health] authorization completed")
+            dlog("[Health] authorization completed")
         } catch {
-            print("[Health] auth error: \(error)")
+            dlog("[Health] auth error: \(error)")
             isAuthorized = false
         }
     }
@@ -55,14 +55,14 @@ final class WorkoutManager: NSObject, ObservableObject {
             session?.startActivity(with: now)
             builder?.beginCollection(withStart: now) { success, error in
                 if let error {
-                    print("[Health] beginCollection error: \(error)")
+                    dlog("[Health] beginCollection error: \(error)")
                 } else {
-                    print("[Health] workout started success=\(success)")
+                    dlog("[Health] workout started success=\(success)")
                 }
             }
             isRunning = true
         } catch {
-            print("[Health] start error: \(error)")
+            dlog("[Health] start error: \(error)")
         }
     }
 
@@ -71,10 +71,10 @@ final class WorkoutManager: NSObject, ObservableObject {
         session.end()
         builder.endCollection(withEnd: Date()) { [weak self] success, error in
             if let error {
-                print("[Health] endCollection error: \(error)")
+                dlog("[Health] endCollection error: \(error)")
             }
             builder.finishWorkout { _, _ in
-                print("[Health] workout finished success=\(success)")
+                dlog("[Health] workout finished success=\(success)")
                 Task { @MainActor in
                     self?.session = nil
                     self?.builder = nil
@@ -92,7 +92,7 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
         _ workoutSession: HKWorkoutSession,
         didFailWithError error: any Error
     ) {
-        print("[Health] session failed: \(error)")
+        dlog("[Health] session failed: \(error)")
     }
 
     nonisolated func workoutSession(
@@ -101,7 +101,7 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
         from fromState: HKWorkoutSessionState,
         date: Date
     ) {
-        print("[Health] state \(fromState.rawValue) → \(toState.rawValue)")
+        dlog("[Health] state \(fromState.rawValue) → \(toState.rawValue)")
     }
 }
 

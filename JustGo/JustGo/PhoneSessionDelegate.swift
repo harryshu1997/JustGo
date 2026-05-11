@@ -11,24 +11,24 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
     func activate(container: ModelContainer) {
         self.container = container
         guard WCSession.isSupported() else {
-            print("[Phone] WCSession unsupported on this device")
+            dlog("[Phone] WCSession unsupported on this device")
             return
         }
         let session = WCSession.default
         session.delegate = self
         session.activate()
-        print("[Phone] WCSession.activate() called")
+        dlog("[Phone] WCSession.activate() called")
     }
 
     func pushActiveGoals(_ payload: ActiveGoalsPayload) {
         pendingPayload = payload
         guard WCSession.isSupported() else { return }
         let session = WCSession.default
-        print("[Phone] pushActiveGoals state=\(session.activationState.rawValue) " +
+        dlog("[Phone] pushActiveGoals state=\(session.activationState.rawValue) " +
               "paired=\(session.isPaired) installed=\(session.isWatchAppInstalled) " +
               "reachable=\(session.isReachable) goals=\(payload.goals.count)")
         guard session.activationState == .activated else {
-            print("[Phone] not activated yet, payload queued")
+            dlog("[Phone] not activated yet, payload queued")
             return
         }
         let dict = ConnectivityCoder.wrapForContext(
@@ -37,9 +37,9 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
         )
         do {
             try session.updateApplicationContext(dict)
-            print("[Phone] updateApplicationContext sent ok")
+            dlog("[Phone] updateApplicationContext sent ok")
         } catch {
-            print("[Phone] updateApplicationContext error: \(error)")
+            dlog("[Phone] updateApplicationContext error: \(error)")
         }
     }
 
@@ -51,9 +51,9 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
         error: Error?
     ) {
         if let error {
-            print("[Phone] activation error: \(error)")
+            dlog("[Phone] activation error: \(error)")
         }
-        print("[Phone] activationDidComplete state=\(activationState.rawValue) " +
+        dlog("[Phone] activationDidComplete state=\(activationState.rawValue) " +
               "paired=\(session.isPaired) installed=\(session.isWatchAppInstalled) " +
               "reachable=\(session.isReachable)")
         if activationState == .activated, let pending = pendingPayload {
@@ -62,14 +62,14 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
     }
 
     func sessionReachabilityDidChange(_ session: WCSession) {
-        print("[Phone] reachability=\(session.isReachable)")
+        dlog("[Phone] reachability=\(session.isReachable)")
         if let pending = pendingPayload {
             pushActiveGoals(pending)
         }
     }
 
     func sessionWatchStateDidChange(_ session: WCSession) {
-        print("[Phone] watch state changed installed=\(session.isWatchAppInstalled)")
+        dlog("[Phone] watch state changed installed=\(session.isWatchAppInstalled)")
         if session.isWatchAppInstalled, let pending = pendingPayload {
             pushActiveGoals(pending)
         }
@@ -82,7 +82,7 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
-        print("[Phone] didReceiveUserInfo keys=\(userInfo.keys.joined(separator: ","))")
+        dlog("[Phone] didReceiveUserInfo keys=\(userInfo.keys.joined(separator: ","))")
         handleSessionPayload(userInfo)
     }
 
@@ -91,13 +91,13 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
         didReceiveMessage message: [String: Any],
         replyHandler: @escaping ([String: Any]) -> Void
     ) {
-        print("[Phone] didReceiveMessage keys=\(message.keys.joined(separator: ","))")
+        dlog("[Phone] didReceiveMessage keys=\(message.keys.joined(separator: ","))")
         handleSessionPayload(message)
         replyHandler(["ack": true])
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-        print("[Phone] didReceiveMessage (no reply) keys=\(message.keys.joined(separator: ","))")
+        dlog("[Phone] didReceiveMessage (no reply) keys=\(message.keys.joined(separator: ","))")
         handleSessionPayload(message)
     }
 
@@ -107,7 +107,7 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
             key: SessionStartedPayload.messageKey,
             type: SessionStartedPayload.self
         ) {
-            print("[Phone] received session START goal=\(started.goalTitle)")
+            dlog("[Phone] received session START goal=\(started.goalTitle)")
             Task { @MainActor in
                 LiveActivityManager.shared.start(
                     goalID: started.goalID,
@@ -125,10 +125,10 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
             key: SessionPayload.messageKey,
             type: SessionPayload.self
         ) else {
-            print("[Phone] session payload decode failed")
+            dlog("[Phone] session payload decode failed")
             return
         }
-        print("[Phone] received session goal=\(payload.goalSnapshotTitle) duration=\(payload.totalDuration)s")
+        dlog("[Phone] received session goal=\(payload.goalSnapshotTitle) duration=\(payload.totalDuration)s")
         Task { @MainActor in
             persist(payload)
             LiveActivityManager.shared.endCurrent()
@@ -186,7 +186,7 @@ final class PhoneSessionDelegate: NSObject, WCSessionDelegate {
         )
         tree.growthStage = 0
         context.insert(tree)
-        print("[Phone] tree planted species=\(species.rawValue) wilted=\(!completedFully) stage=0")
+        dlog("[Phone] tree planted species=\(species.rawValue) wilted=\(!completedFully) stage=0")
 
         let exp = BuddyExpCalculator.exp(
             actualDuration: payload.totalDuration,

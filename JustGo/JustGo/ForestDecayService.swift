@@ -43,7 +43,7 @@ enum ForestDecayService {
 
         if killed > 0 {
             try? context.save()
-            print("[Decay] idle=\(daysIdle)d shouldDead=\(shouldDeadCount) killed=\(killed) totalDead=\(alreadyDead + killed)")
+            dlog("[Decay] idle=\(daysIdle)d shouldDead=\(shouldDeadCount) killed=\(killed) totalDead=\(alreadyDead + killed)")
         }
         return killed
     }

@@ -21,7 +21,7 @@ final class LiveActivityManager {
         startedAt: Date
     ) {
         guard isSupported else {
-            print("[LiveActivity] not supported / disabled by user")
+            dlog("[LiveActivity] not supported / disabled by user")
             return
         }
         endCurrent()
@@ -39,7 +39,7 @@ final class LiveActivityManager {
     /// JustGoApp.scenePhase 切回 .active 时调用
     func flushPending() {
         guard let attrs = pendingAttrs else { return }
-        print("[LiveActivity] flushing pending activity (app became foreground)")
+        dlog("[LiveActivity] flushing pending activity (app became foreground)")
         attemptStart(attrs: attrs)
     }
 
@@ -49,15 +49,15 @@ final class LiveActivityManager {
         do {
             current = try Activity.request(attributes: attrs, content: content, pushType: nil)
             pendingAttrs = nil
-            print("[LiveActivity] started id=\(current?.id ?? "?")")
+            dlog("[LiveActivity] started id=\(current?.id ?? "?")")
         } catch {
             let msg = "\(error)"
             if msg.contains("visibility") {
                 pendingAttrs = attrs
-                print("[LiveActivity] backgrounded → queued; will start on next foreground")
+                dlog("[LiveActivity] backgrounded → queued; will start on next foreground")
             } else {
                 pendingAttrs = nil
-                print("[LiveActivity] start error: \(error)")
+                dlog("[LiveActivity] start error: \(error)")
             }
         }
     }
@@ -76,7 +76,7 @@ final class LiveActivityManager {
         Task {
             let content = finalState.map { ActivityContent(state: $0, staleDate: nil) }
             await activity.end(content, dismissalPolicy: .after(.now.addingTimeInterval(3)))
-            print("[LiveActivity] ended id=\(activity.id)")
+            dlog("[LiveActivity] ended id=\(activity.id)")
         }
         current = nil
     }

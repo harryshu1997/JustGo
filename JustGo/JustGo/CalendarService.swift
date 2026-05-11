@@ -24,15 +24,15 @@ final class CalendarService {
 
     func requestAccessAndEnable() async -> Bool {
         let before = currentAuthorization
-        print("[Calendar] requesting access, current status=\(before.rawValue)")
+        dlog("[Calendar] requesting access, current status=\(before.rawValue)")
         do {
             let granted = try await store.requestFullAccessToEvents()
             let after = currentAuthorization
             UserDefaults.standard.set(granted, forKey: enabledKey)
-            print("[Calendar] granted=\(granted) status=\(after.rawValue) (1=restricted 2=denied 3=fullAccess 4=writeOnly)")
+            dlog("[Calendar] granted=\(granted) status=\(after.rawValue) (1=restricted 2=denied 3=fullAccess 4=writeOnly)")
             return granted
         } catch {
-            print("[Calendar] permission error: \(error)")
+            dlog("[Calendar] permission error: \(error)")
             UserDefaults.standard.set(false, forKey: enabledKey)
             return false
         }
@@ -45,15 +45,15 @@ final class CalendarService {
     func removeEvent(identifier: String) -> Bool {
         guard isEnabled else { return false }
         guard let event = store.event(withIdentifier: identifier) else {
-            print("[Calendar] event \(identifier) not found")
+            dlog("[Calendar] event \(identifier) not found")
             return false
         }
         do {
             try store.remove(event, span: .thisEvent)
-            print("[Calendar] event removed id=\(identifier)")
+            dlog("[Calendar] event removed id=\(identifier)")
             return true
         } catch {
-            print("[Calendar] remove error: \(error)")
+            dlog("[Calendar] remove error: \(error)")
             return false
         }
     }
@@ -67,7 +67,7 @@ final class CalendarService {
         sourceDevice: String
     ) -> String? {
         guard isEnabled else {
-            print("[Calendar] disabled, skip write")
+            dlog("[Calendar] disabled, skip write")
             return nil
         }
         let event = EKEvent(eventStore: store)
@@ -84,10 +84,10 @@ final class CalendarService {
         event.calendar = store.defaultCalendarForNewEvents
         do {
             try store.save(event, span: .thisEvent)
-            print("[Calendar] event saved id=\(event.eventIdentifier ?? "?")")
+            dlog("[Calendar] event saved id=\(event.eventIdentifier ?? "?")")
             return event.eventIdentifier
         } catch {
-            print("[Calendar] save error: \(error)")
+            dlog("[Calendar] save error: \(error)")
             return nil
         }
     }

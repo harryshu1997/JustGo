@@ -18,20 +18,20 @@ final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate 
 
     nonisolated func activate() {
         guard WCSession.isSupported() else {
-            print("[Watch] WCSession unsupported")
+            dlog("[Watch] WCSession unsupported")
             return
         }
         let session = WCSession.default
         session.delegate = self
         session.activate()
-        print("[Watch] WCSession.activate() called")
+        dlog("[Watch] WCSession.activate() called")
     }
 
     func notifySessionStarted(_ goal: WatchGoalSnapshot, startedAt: Date) {
         guard WCSession.isSupported() else { return }
         let session = WCSession.default
         guard session.activationState == .activated, session.isReachable else {
-            print("[Watch] not reachable, skip session start notify")
+            dlog("[Watch] not reachable, skip session start notify")
             return
         }
         let payload = SessionStartedPayload(
@@ -47,10 +47,10 @@ final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate 
             dict,
             replyHandler: nil,
             errorHandler: { error in
-                print("[Watch] sessionStarted sendMessage error: \(error)")
+                dlog("[Watch] sessionStarted sendMessage error: \(error)")
             }
         )
-        print("[Watch] sessionStarted notified")
+        dlog("[Watch] sessionStarted notified")
     }
 
     func completeSession(_ result: SessionResult) {
@@ -75,25 +75,25 @@ final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate 
             key: SessionPayload.messageKey
         )
         let session = WCSession.default
-        print("[Watch] completeSession state=\(session.activationState.rawValue) " +
+        dlog("[Watch] completeSession state=\(session.activationState.rawValue) " +
               "reachable=\(session.isReachable) duration=\(result.duration)s")
         guard session.activationState == .activated else {
-            print("[Watch] WCSession not activated, payload dropped!")
+            dlog("[Watch] WCSession not activated, payload dropped!")
             return
         }
         if session.isReachable {
             session.sendMessage(
                 dict,
                 replyHandler: { _ in
-                    print("[Watch] sendMessage delivered")
+                    dlog("[Watch] sendMessage delivered")
                 },
                 errorHandler: { error in
-                    print("[Watch] sendMessage error, falling back: \(error)")
+                    dlog("[Watch] sendMessage error, falling back: \(error)")
                     session.transferUserInfo(dict)
                 }
             )
         } else {
-            print("[Watch] not reachable, using transferUserInfo")
+            dlog("[Watch] not reachable, using transferUserInfo")
             session.transferUserInfo(dict)
         }
     }
@@ -106,9 +106,9 @@ final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate 
         error: Error?
     ) {
         if let error {
-            print("[Watch] activation error: \(error)")
+            dlog("[Watch] activation error: \(error)")
         }
-        print("[Watch] activationDidComplete state=\(activationState.rawValue) " +
+        dlog("[Watch] activationDidComplete state=\(activationState.rawValue) " +
               "reachable=\(session.isReachable)")
     }
 
@@ -116,23 +116,23 @@ final class WatchSessionDelegate: NSObject, ObservableObject, WCSessionDelegate 
         _ session: WCSession,
         didReceiveApplicationContext applicationContext: [String: Any]
     ) {
-        print("[Watch] didReceiveApplicationContext keys=\(applicationContext.keys.joined(separator: ","))")
+        dlog("[Watch] didReceiveApplicationContext keys=\(applicationContext.keys.joined(separator: ","))")
         guard let payload = ConnectivityCoder.unwrapFromContext(
             applicationContext,
             key: ActiveGoalsPayload.contextKey,
             type: ActiveGoalsPayload.self
         ) else {
-            print("[Watch] payload decode failed")
+            dlog("[Watch] payload decode failed")
             return
         }
-        print("[Watch] received \(payload.goals.count) goals")
+        dlog("[Watch] received \(payload.goals.count) goals")
         Task { @MainActor in
             self.applyActiveGoals(payload)
         }
     }
 
     nonisolated func sessionReachabilityDidChange(_ session: WCSession) {
-        print("[Watch] reachability=\(session.isReachable)")
+        dlog("[Watch] reachability=\(session.isReachable)")
     }
 
     @MainActor
